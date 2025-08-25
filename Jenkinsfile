@@ -9,7 +9,7 @@ pipeline {
 
         // Environment variables passed into zap_scan.sh
         APP_URL     = "http://rcp-backend:8081"
-        ZAP_URL     = "http://localhost:8090/"
+        ZAP_URL     = "http://zap:8090/"
         OPENAPI_URL = "http://rcp-backend:8081/v3/api-docs"
         REPORTS_DIR = "zap_reports"
     }
@@ -65,13 +65,13 @@ pipeline {
             }
         }
 
-        stage('Build Dataclient Image') {
-            steps {
-                dir('dataclient') {
-                    sh "docker build -t ${DATACLIENT_IMAGE}:${BUILD_NUMBER} ."
-                }
-            }
-        }
+        // stage('Build Dataclient Image') {
+        //     steps {
+        //         dir('dataclient') {
+        //             sh "docker build -t ${DATACLIENT_IMAGE}:${BUILD_NUMBER} ."
+        //         }
+        //     }
+        // }
 
         // stage('Trivy Scans') {
         //     steps {
@@ -119,7 +119,7 @@ pipeline {
         stage('Deploy with Docker Compose') {
             steps {
                 sh 'docker compose down || true'
-                sh 'docker compose up -d --build'
+                sh 'docker compose up -d'
             }
         }
 
