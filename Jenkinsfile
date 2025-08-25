@@ -39,7 +39,7 @@ pipeline {
                 sh 'chmod +x ./gradle'
                 sh 'java -version'
                 // sh 'node --version'
-                sh 'npm --version'
+                // sh 'npm --version'
                 sh 'docker --version'
                 sh 'trivy --version'
             }
