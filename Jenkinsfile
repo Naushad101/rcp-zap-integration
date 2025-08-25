@@ -118,7 +118,7 @@ pipeline {
 
         stage('Deploy with Docker Compose') {
             steps {
-                sh 'docker compose down || true'
+                //sh 'docker compose down || true'
                 sh 'docker compose up -d'
             }
         }
@@ -126,7 +126,7 @@ pipeline {
         stage('Wait for ZAP Ready') {
             steps {
                 script {
-                sh "sleep 20"
+                sh "sleep 30"
                 def maxRetries = 10
                 def count = 0
                 def zapReady = false
