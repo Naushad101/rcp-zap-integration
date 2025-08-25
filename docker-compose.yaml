@@ -16,12 +16,12 @@ services:
       - ./env/otel-config.env
     networks:
       - bnt-cnx-network
-    # healthcheck:
-    #   test: ["CMD", "curl", "-fs", "http://localhost:8081/actuator/health"]
-    #   interval: 10s
-    #   timeout: 5s
-    #   retries: 5
-    #   start_period: 30s
+    healthcheck:
+      test: ["CMD", "curl", "-fs", "http://localhost:8081/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
 
   dataclient:
     build:
@@ -38,9 +38,9 @@ services:
       OTEL_SERVICE_NAME: dataclient
     env_file:
       - ./env/otel-config.env
-    # depends_on:
-    #   backend:
-    #     condition: service_healthy
+    depends_on:
+      backend:
+        condition: service_healthy
     networks:
       - bnt-cnx-network
 
