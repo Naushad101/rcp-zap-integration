@@ -13,10 +13,10 @@ REPORTS_DIR="${REPORTS_DIR:-./zap_reports}"
 mkdir -p "$REPORTS_DIR"
 
 # Wait for ZAP to be ready
-echo "Waiting for ZAP to be available at $ZAP_URL..."
-until curl -s -o /dev/null -w "%{http_code}" "$ZAP_URL" | grep -q "200"; do
-  sleep 5
-done
+# echo "Waiting for ZAP to be available at $ZAP_URL..."
+# until curl -s -o /dev/null -w "%{http_code}" "$ZAP_URL" | grep -q "200"; do
+#   sleep 5
+# done
 
 echo "ZAP is ready, starting scan..."
 
