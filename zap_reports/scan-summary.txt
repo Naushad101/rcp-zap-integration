@@ -1,0 +1,8 @@
+=== SECURITY SCAN SUMMARY ===
+Scan completed at: Fri, Aug 22, 2025  5:08:19 PM
+Application URL: http://backend:8081
+OpenAPI Spec: http://backend:8081/v3/api-docs
+High Risk Alerts: 0
+Medium Risk Alerts: 1
+Low Risk Alerts: 28
+Informational Alerts: 780

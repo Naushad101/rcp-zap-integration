@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="8" author="Vaibhav" failOnError="false">
+
+        <createTable tableName="REVCHANGES">
+            <column name="rev" type="int">
+                <constraints nullable="false" />
+            </column>
+            <column name="ENTITYNAME" type="VARCHAR(250)" />
+        </createTable>
+
+        <createTable tableName="REVINFO">
+            <column autoIncrement="true" name="rev" type="int">
+                <constraints primaryKey="true" />
+            </column>
+            <column name="revtstmp" type="bigint" />
+        </createTable>
+
+        <createTable tableName="acquirer_mapping_aud">
+            <column name="id" type="INT">
+                <constraints nullable="false" />
+            </column>
+            <column name="rev" type="INT">
+                <constraints nullable="false" />
+            </column>
+            <column name="revtype" type="tinyint" />
+            <column name="device_id" type="INT" />
+            <column name="location_id" type="INT" />
+            <column name="merchant_id" type="INT" />
+            <column name="aquirer_id" type="INT" />
+            <column name="payment_method" type="INT" />
+            <column name="active" type="CHAR(1)" />
+            <column name="deleted" type="CHAR(1)" />
+            <column name="created_on" type="datetime" />
+            <column name="created_by" type="smallint" />
+            <column name="updated_on" type="datetime" />
+            <column name="updated_by" type="smallint" />
+        </createTable>
+
+        <createTable tableName="merchant_detail_aud">
+            <column name="id" type="INT">
+                <constraints nullable="false" />
+            </column>
+            <column name="rev" type="INT">
+                <constraints nullable="false" />
+            </column>
+            <column name="revtype" type="tinyint" />
+            <column name="address_1" type="varchar(256)" />
+            <column name="address_2" type="varchar(256)" />
+            <column name="city" type="varchar(50)" />
+            <column name="state" type="INT(11)" />
+            <column name="postal_code" type="varchar(15)" />
+            <column name="country" type="INT(11)" />
+            <column name="phone" type="varchar(20)" />
+            <column name="fax" type="varchar(20)" />
+            <column name="website" type="varchar(100)" />
+            <column name="official_email" type="varchar(100)" />
+            <column name="created_on" type="datetime" />
+            <column name="created_by" type="smallint" />
+            <column name="updated_on" type="datetime" />
+            <column name="updated_by" type="smallint" />
+        </createTable>
+
+        <createTable tableName="merchant_profile_aud">
+            <column name="id" type="INT">
+                <constraints nullable="false" />
+            </column>
+            <column name="rev" type="INT">
+                <constraints nullable="false" />
+            </column>
+            <column name="revtype" type="tinyint" />
+            <column name="merchant_category_code" type="char(4)" />
+            <column name="services" type="varchar(512)" />
+            <column name="partial_auth" type="char(1)" />
+            <column name="velocity" type="char(1)" />
+            <column name="created_on" type="datetime" />
+            <column name="created_by" type="smallint" />
+            <column name="updated_on" type="datetime" />
+            <column name="updated_by" type="smallint" />
+        </createTable>
+
+        <createTable tableName="merchant_institution_detail_aud">
+            <column name="id" type="INT">
+                <constraints nullable="false" />
+            </column>
+            <column name="rev" type="INT">
+                <constraints nullable="false" />
+            </column>
+            <column name="revtype" type="tinyint" />
+            <column name="address_1" type="varchar(256)" />
+            <column name="address_2" type="varchar(256)" />
+            <column name="city" type="varchar(50)" />
+            <column name="state" type="INT(11)" />
+            <column name="postal_code" type="varchar(15)" />
+            <column name="country" type="INT(11)" />
+            <column name="phone" type="varchar(20)" />
+            <column name="fax" type="varchar(20)" />
+            <column name="website" type="varchar(100)" />
+            <column name="official_email" type="varchar(100)" />
+            <column name="created_on" type="datetime" />
+            <column name="created_by" type="smallint" />
+            <column name="updated_on" type="datetime" />
+            <column name="updated_by" type="smallint" />
+        </createTable>
+
+        <createTable tableName="atm_option_aud">
+            <column name="id" type="INT">
+                <constraints nullable="false" />
+            </column>
+            <column name="rev" type="INT">
+                <constraints nullable="false" />
+            </column>
+            <column name="revtype" type="tinyint" />
+            <column name="currency" type="VARCHAR(255)" />
+            <column name="dccflag" type="TINYINT(1)" />
+            <column name="masterkeyexpirytimeunit" type="VARCHAR(255)" />
+            <column name="pinkeyexpirytimeunit" type="VARCHAR(255)" />
+            <column name="masterkeyexpiryvalue" type="INT" />
+            <column name="pinkeyexpiryperiod" type="INT" />
+        </createTable>
+
+        <createTable tableName="terminal_type_aud">
+            <column name="id" type="INT">
+                <constraints nullable="false" />
+            </column>
+            <column name="rev" type="INT">
+                <constraints nullable="false" />
+            </column>
+            <column name="revtype" type="tinyint" />
+            <column name="type" type="varchar(256)" />
+            <column name="status" type="smallint" />
+            <column name="deleted" type="smallint" />
+            <column name="created_on" type="datetime" />
+            <column name="created_by" type="smallint" />
+            <column name="updated_on" type="datetime" />
+            <column name="updated_by" type="smallint" />
+        </createTable>
+
+        <createTable tableName="terminal_vendor_aud">
+            <column name="id" type="INT">
+                <constraints nullable="false" />
+            </column>
+            <column name="rev" type="INT">
+                <constraints nullable="false" />
+            </column>
+            <column name="revtype" type="tinyint" />
+            <column name="name" type="varchar(256)" />
+            <column name="status" type="smallint" />
+            <column name="deleted" type="smallint" />
+            <column name="created_on" type="datetime" />
+            <column name="created_by" type="smallint" />
+            <column name="updated_on" type="datetime" />
+            <column name="updated_by" type="smallint" />
+        </createTable>
+
+        <createTable tableName="terminal_siting_aud">
+            <column name="id" type="INT">
+                <constraints nullable="false" />
+            </column>
+            <column name="rev" type="INT">
+                <constraints nullable="false" />
+            </column>
+            <column name="revtype" type="tinyint" />
+            <column name="name" type="varchar(256)" />
+            <column name="status" type="smallint" />
+            <column name="deleted" type="smallint" />
+            <column name="created_on" type="datetime" />
+            <column name="created_by" type="smallint" />
+            <column name="updated_on" type="datetime" />
+            <column name="updated_by" type="smallint" />
+        </createTable>
+
+        <createTable tableName="terminal_model_aud">
+            <column name="id" type="INT">
+                <constraints nullable="false" />
+            </column>
+            <column name="rev" type="INT">
+                <constraints nullable="false" />
+            </column>
+            <column name="revtype" type="tinyint" />
+            <column name="modelname" type="varchar(256)" />
+            <column name="vendor" type="INT" />
+            <column name="type" type="INT" />
+            <column name="siting" type="INT" />
+            <column name="status" type="smallint" />
+            <column name="deleted" type="smallint" />
+            <column name="created_on" type="datetime" />
+            <column name="created_by" type="smallint" />
+            <column name="updated_on" type="datetime" />
+            <column name="updated_by" type="smallint" />
+        </createTable>
+
+    </changeSet>
+</databaseChangeLog>

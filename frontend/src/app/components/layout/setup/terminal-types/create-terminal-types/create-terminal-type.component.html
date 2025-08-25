@@ -1,0 +1,64 @@
+<div class="main-container">
+
+    <div class="header">
+      <div class="name-box">
+        <i class="fa fa-bars" aria-hidden="true"></i>
+        <h4>Create Terminal Type</h4>
+      </div>
+      <div class="back-link">
+        <a routerLink="/layout/terminal-types">
+          <i class="fa fa-arrow-left" aria-hidden="true"></i>
+          Back
+        </a>
+      </div>
+    </div>
+  
+    <div class="main-content">
+      <div class="form-container">
+        <form [formGroup]="terminalTypeForm" (ngSubmit)="onSubmit()">
+          
+          <div class="form-group">
+            <label for="name" class="form-label">Name <span class="required">*</span></label>
+            <input 
+              type="text" 
+              id="name"
+              class="form-control" 
+              formControlName="name"
+              placeholder="Name"
+              [class.is-invalid]="isFieldInvalid('name')"
+            >
+            <div class="invalid-feedback" *ngIf="isFieldInvalid('name')">
+              <small *ngIf="terminalTypeForm.get('name')?.errors?.['required']">Name is required.</small>
+              <small *ngIf="terminalTypeForm.get('name')?.errors?.['minlength']">Name must be at least 2 characters long.</small>
+              <small *ngIf="terminalTypeForm.get('name')?.errors?.['maxlength']">Name cannot exceed 100 characters.</small>
+            </div>
+          </div>
+  
+          <div class="form-group">
+            <label class="form-label">Status</label>
+            <div class="checkbox-container">
+              <div class="custom-control custom-checkbox">
+                <input 
+                  type="checkbox" 
+                  class="custom-control-input" 
+                  id="activeStatus"
+                  formControlName="active"
+                >
+                <label class="custom-control-label" for="activeStatus">DISABLED</label>
+              </div>
+            </div>
+          </div>
+  
+          <div class="form-actions">
+            <button type="button" class="btn btn-secondary" (click)="onCancel()">Cancel</button>
+            <button type="submit" class="btn btn-primary" [disabled]="terminalTypeForm.invalid || isSubmitting">
+              <span *ngIf="isSubmitting" class="spinner-border spinner-border-sm me-2" role="status"></span>
+              Submit
+            </button>
+          </div>
+  
+        </form>
+      </div>
+    </div>
+  
+  </div>

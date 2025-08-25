@@ -1,0 +1,98 @@
+<div class="container">
+  <div class="header">
+    <h2>View Merchant Terminal</h2>
+  </div>
+  <button class="back-button icon-button" (click)="onBack()">Back</button>
+
+  <div class="view-card" *ngIf="merchantTerminal">
+    <div class="card-header">
+      <h3>{{ merchantTerminal.name }}</h3>
+      <div class="status-badges">
+        <span class="status-badge" [ngClass]="{'enabled': merchantTerminal.status, 'disabled': !merchantTerminal.status}">
+          {{ merchantTerminal.status ? 'ENABLED' : 'DISABLED' }}
+        </span>
+        <span class="status-badge pos-safety" [ngClass]="{'enabled': merchantTerminal.posSafety, 'disabled': !merchantTerminal.posSafety}">
+          POS Safety: {{ merchantTerminal.posSafety ? 'ENABLED' : 'DISABLED' }}
+        </span>
+      </div>
+    </div>
+
+    <div class="card-content">
+      <div class="info-section">
+        <h4>General Information</h4>
+        <div class="info-grid">
+          <div class="info-item">
+            <label>Terminal Name</label>
+            <span>{{ merchantTerminal.name }}</span>
+          </div>
+          <div class="info-item">
+            <label>Terminal ID</label>
+            <span>{{ merchantTerminal.terminalId }}</span>
+          </div>
+          <div class="info-item">
+            <label>PED ID</label>
+            <span>{{ merchantTerminal.pedId }}</span>
+          </div>
+          <div class="info-item">
+            <label>PED Serial No</label>
+            <span>{{ merchantTerminal.pedSerialNo }}</span>
+          </div>
+          <div class="info-item">
+            <label>Active Since</label>
+            <span>{{ merchantTerminal.activateOn | date:'mediumDate' }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-section">
+        <h4>Device Information</h4>
+        <div class="info-grid">
+          <div class="info-item">
+            <label>Device Type</label>
+            <span>{{ merchantTerminal.deviceType }}</span>
+          </div>
+          <div class="info-item">
+            <label>Device Model Type</label>
+            <span>{{ merchantTerminal.deviceModelType }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-section">
+        <h4>Merchant Information</h4>
+        <div class="info-grid">
+          <div class="info-item">
+            <label>Merchant Chain</label>
+            <span>{{ merchantTerminal.merchantChain }}</span>
+          </div>
+          <div class="info-item">
+            <label>Merchant Store</label>
+            <span>{{ merchantTerminal.merchantStore }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-section">
+        <h4>Settings</h4>
+        <div class="settings-grid">
+          <div class="setting-item">
+            <label>Status</label>
+            <span class="status-indicator" [ngClass]="{'enabled': merchantTerminal.status, 'disabled': !merchantTerminal.status}">
+              {{ merchantTerminal.status ? 'ENABLED' : 'DISABLED' }}
+            </span>
+          </div>
+          <div class="setting-item">
+            <label>POS Safety</label>
+            <span class="status-indicator" [ngClass]="{'enabled': merchantTerminal.posSafety, 'disabled': !merchantTerminal.posSafety}">
+              {{ merchantTerminal.posSafety ? 'ENABLED' : 'DISABLED' }}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-actions">
+      <button class="btn-secondary" (click)="onBack()">Back to List</button>
+      <button class="btn-primary" (click)="onEdit()">Edit Terminal</button>
+    </div>
+  </div>

@@ -1,0 +1,116 @@
+<div class="container">
+    <div class="header">
+      <h2>{{ pageTitle }} Merchant Terminal</h2>
+    </div>
+    <button class="back-button icon-button" (click)="onCancel()">Back</button>
+
+    <div class="stepper">
+      <div class="stepper-header">
+        <div class="step" [ngClass]="{'active': currentStep === 1, 'completed': currentStep > 1}">
+          <span class="step-number">1</span>
+          <span>General Info</span>
+        </div>
+        <div class="step" [ngClass]="{'active': currentStep === 2, 'completed': currentStep > 2}">
+          <span class="step-number">2</span>
+          <span>Device Info</span>
+        </div>
+      </div>
+
+      <div class="step-content" *ngIf="currentStep === 1">
+        <div class="form-section">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Merchant Terminal Name*</label>
+              <input [(ngModel)]="merchantTerminal.name" placeholder="Enter Merchant Terminal Name" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Device Type*</label>
+              <select [(ngModel)]="merchantTerminal.deviceType" [disabled]="isLoadingDeviceTypes">
+                <option value="" disabled selected>{{ isLoadingDeviceTypes ? 'Loading...' : 'Select Device Type' }}</option>
+                <option *ngFor="let type of deviceTypes" [value]="type">{{ type }}</option>
+              </select>
+              <div *ngIf="isLoadingDeviceTypes">Loading device types...</div>
+            </div>
+            <div class="form-group">
+              <label>Device Model Type*</label>
+              <select [(ngModel)]="merchantTerminal.deviceModelType" [disabled]="isLoadingDeviceModels">
+                <option value="" disabled selected>{{ isLoadingDeviceModels ? 'Loading...' : 'Select Device Model Type' }}</option>
+                <option *ngFor="let model of deviceModels" [value]="model">{{ model }}</option>
+              </select>
+              <div *ngIf="isLoadingDeviceModels">Loading device models...</div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Merchant Chain*</label>
+              <select [(ngModel)]="merchantTerminal.merchantChain" [disabled]="isLoadingMerchantChains">
+                <option value="" disabled selected>{{ isLoadingMerchantChains ? 'Loading...' : 'Select Merchant Chain' }}</option>
+                <option *ngFor="let chain of merchantChains" [value]="chain">{{ chain }}</option>
+              </select>
+              <div *ngIf="isLoadingMerchantChains">Loading merchant chains...</div>
+            </div>
+            <div class="form-group">
+              <label>Merchant Store*</label>
+              <select [(ngModel)]="merchantTerminal.merchantStore" [disabled]="isLoadingMerchantStores">
+                <option value="" disabled selected>{{ isLoadingMerchantStores ? 'Loading...' : 'Select Merchant Store' }}</option>
+                <option *ngFor="let store of merchantStores" [value]="store">{{ store }}</option>
+              </select>
+              <div *ngIf="isLoadingMerchantStores">Loading merchant stores...</div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Terminal ID*</label>
+              <input [(ngModel)]="merchantTerminal.terminalId" placeholder="Enter Terminal ID" />
+            </div>
+            <div class="form-group">
+              <label>PED ID*</label>
+              <input [(ngModel)]="merchantTerminal.pedId" placeholder="Enter PED ID" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>PED Serial No*</label>
+              <input [(ngModel)]="merchantTerminal.pedSerialNo" placeholder="Enter PED Serial No" />
+            </div>
+            <div class="form-group">
+              <label>Active Since*</label>
+              <input type="date" [(ngModel)]="merchantTerminal.activateOn" />
+            </div>
+          </div>
+          <div class="form-actions">
+            <button class="btn-cancel" (click)="onCancel()">Cancel</button>
+            <button class="btn-next" [disabled]="!isStep1Valid()" (click)="nextStep()">Next</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="step-content" *ngIf="currentStep === 2">
+        <div class="form-section">
+          <div class="form-row">
+            <div class="form-group checkbox-group">
+              <div class="checkbox-wrapper">
+                <input type="checkbox" [(ngModel)]="merchantTerminal.posSafety" (change)="onPosSafetyToggle($event)" />
+                <span class="checkbox-label">POS Safety</span>
+                <span>{{ merchantTerminal.posSafety ? 'ENABLED' : 'DISABLED' }}</span>
+              </div>
+            </div>
+            <div class="form-group checkbox-group">
+              <div class="checkbox-wrapper">
+                <input type="checkbox" [(ngModel)]="merchantTerminal.status" (change)="onStatusToggle($event)" />
+                <span class="checkbox-label">Status</span>
+                <span>{{ merchantTerminal.status ? 'ENABLED' : 'DISABLED' }}</span>
+              </div>
+            </div>
+          </div>
+          <div class="form-actions">
+            <button class="btn-back" (click)="previousStep()">Back</button>
+            <button class="btn-cancel" (click)="onCancel()">Cancel</button>
+            <button class="btn-submit" [disabled]="!isFormValid()" (click)="onSubmit()">{{ isEditMode ? 'Update' : 'Submit' }}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

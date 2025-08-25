@@ -1,0 +1,263 @@
+.container
+  padding: 24px
+  background-color: #f8f9fa
+  min-height: 100vh
+
+.header
+  display: flex
+  justify-content: space-between
+  align-items: center
+  margin-bottom: 24px
+  
+  h2
+    margin: 0
+    color: #2c3e50
+    font-size: 28px
+    font-weight: 600
+
+.create-btn
+  display: flex
+  align-items: center
+  gap: 8px
+  background-color: #007bff
+  color: white
+  border: none
+  padding: 12px 24px
+  border-radius: 6px
+  font-weight: 500
+  cursor: pointer
+  transition: all 0.2s ease
+  
+  &:hover
+    background-color: #0056b3
+    transform: translateY(-1px)
+  
+  .icon-plus::before
+    content: "+"
+    font-weight: bold
+
+.search-filter-section
+  background: white
+  padding: 20px
+  border-radius: 8px
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1)
+  margin-bottom: 24px
+
+.search-bar
+  display: flex
+  gap: 12px
+  margin-bottom: 16px
+  
+.search-input
+  flex: 1
+  padding: 12px 16px
+  border: 1px solid #ddd
+  border-radius: 6px
+  font-size: 14px
+  
+  &:focus
+    outline: none
+    border-color: #007bff
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25)
+
+.reset-btn
+  background-color: #6c757d
+  color: white
+  border: none
+  padding: 12px 24px
+  border-radius: 6px
+  cursor: pointer
+  transition: background-color 0.2s ease
+  
+  &:hover
+    background-color: #545b62
+
+.filter-dropdowns
+  display: flex
+  gap: 16px
+  flex-wrap: wrap
+
+.filter-group
+  min-width: 200px
+
+.filter-select
+  width: 100%
+  padding: 12px 16px
+  border: 1px solid #ddd
+  border-radius: 6px
+  background-color: white
+  font-size: 14px
+  cursor: pointer
+  
+  &:focus
+    outline: none
+    border-color: #007bff
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25)
+
+.table-container
+  background: white
+  border-radius: 8px
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1)
+  overflow: hidden
+
+.data-table
+  width: 100%
+  border-collapse: collapse
+  
+  thead
+    background-color: #343a40
+    
+    th
+      padding: 16px 12px
+      text-align: left
+      color: white
+      font-weight: 600
+      font-size: 14px
+      border-bottom: 2px solid #495057
+
+  tbody
+    tr
+      border-bottom: 1px solid #dee2e6
+      transition: background-color 0.2s ease
+      
+      &:hover
+        background-color: #f8f9fa
+    
+    td
+      padding: 16px 12px
+      font-size: 14px
+      color: #495057
+
+.status-badge
+  padding: 4px 12px
+  border-radius: 20px
+  font-size: 12px
+  font-weight: 600
+  text-transform: uppercase
+  
+  &.enabled
+    background-color: #d4edda
+    color: #155724
+    border: 1px solid #c3e6cb
+  
+  &.disabled
+    background-color: #f8d7da
+    color: #721c24
+    border: 1px solid #f5c6cb
+
+.action-buttons
+  display: flex
+  gap: 8px
+
+.btn-action
+  width: 32px
+  height: 32px
+  border: none
+  border-radius: 4px
+  cursor: pointer
+  display: flex
+  align-items: center
+  justify-content: center
+  transition: all 0.2s ease
+  
+  &.btn-view
+    background-color: #17a2b8
+    color: white
+    
+    &:hover
+      background-color: #138496
+  
+  &.btn-edit
+    background-color: #ffc107
+    color: #212529
+    
+    &:hover
+      background-color: #e0a800
+  
+  &.btn-delete
+    background-color: #dc3545
+    color: white
+    
+    &:hover
+      background-color: #c82333
+
+.icon-eye::before
+  content: "👁"
+
+.icon-edit::before
+  content: "✏️"
+
+.icon-trash::before
+  content: "🗑"
+
+.no-data
+  padding: 60px 20px
+  text-align: center
+  color: #6c757d
+  
+  p
+    margin: 0
+    font-size: 18px
+    
+    &.record-count
+      font-size: 14px
+      margin-top: 8px
+
+.record-count
+  padding: 16px 20px
+  background-color: #f8f9fa
+  border-top: 1px solid #dee2e6
+  font-size: 14px
+  color: #6c757d
+
+.loading-spinner
+  display: flex
+  flex-direction: column
+  align-items: center
+  justify-content: center
+  padding: 60px 20px
+  
+  .spinner
+    width: 40px
+    height: 40px
+    border: 4px solid #f3f3f3
+    border-top: 4px solid #007bff
+    border-radius: 50%
+    animation: spin 1s linear infinite
+    margin-bottom: 16px
+  
+  p
+    color: #6c757d
+    font-size: 16px
+    margin: 0
+
+@keyframes spin
+  0%
+    transform: rotate(0deg)
+  100%
+    transform: rotate(360deg)
+
+@media (max-width: 768px)
+  .container
+    padding: 16px
+  
+  .header
+    flex-direction: column
+    gap: 16px
+    align-items: stretch
+  
+  .filter-dropdowns
+    flex-direction: column
+  
+  .filter-group
+    min-width: auto
+  
+  .data-table
+    font-size: 12px
+    
+    th, td
+      padding: 8px 6px
+
+  .action-buttons
+    flex-direction: column
+    gap: 4px

@@ -1,0 +1,697 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="5" author="Vaibhav">
+
+        <createTable tableName="merchant">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="merchant_institution_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="code" type="VARCHAR(15)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(50)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="description" type="VARCHAR(512)"/>
+            <column name="additional_attributes" type="json">
+                <constraints nullable="true"/>
+            </column>
+            <column name="pos_safety_flag" type="CHAR(1)" defaultValue="0">
+                <constraints nullable="true"/>
+            </column>
+            <column name="reversal_timeout" type="smallint" defaultValue="0">
+                <constraints nullable="true"/>
+            </column>
+            <column name="activate_on" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="expiry_on" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="locked" type="CHAR(1)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="deleted" type="CHAR(1)"/>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="created_on" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="smallint">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="updated_on" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_by" type="smallint"/>
+        </createTable>
+        <addForeignKeyConstraint
+            baseColumnNames="created_by"
+            baseTableName="merchant"
+            constraintName="fk_merchant_cby"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="NO ACTION"
+            onUpdate="NO ACTION"
+            referencedColumnNames="id"
+            referencedTableName="system_user"
+            validate="true"/>
+        <addForeignKeyConstraint
+            baseColumnNames="updated_by"
+            baseTableName="merchant"
+            constraintName="fk_merchant_uby"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="NO ACTION"
+            onUpdate="NO ACTION"
+            referencedColumnNames="id"
+            referencedTableName="system_user"
+            validate="true"/>
+        <addForeignKeyConstraint
+            baseColumnNames="merchant_institution_id"
+            baseTableName="merchant"
+            constraintName="fk_merchant_merinstid"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="NO ACTION"
+            onUpdate="NO ACTION"
+            referencedColumnNames="id"
+            referencedTableName="merchant_institution"
+            validate="true"/>
+        <createIndex tableName="merchant" indexName="code" unique="true">
+            <column name="code"/>
+            <column name="merchant_institution_id"/>
+        </createIndex>
+
+        <createTable tableName="merchant_profile">
+            <column name="id" type="INT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="merchant_category_code" type="CHAR(4)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="services" type="VARCHAR(512)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValue="Y" name="partial_auth" type="CHAR(1)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="velocity" type="CHAR(1)"/>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="created_on" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="smallint">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="updated_on" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_by" type="smallint"/>
+        </createTable>
+        <addForeignKeyConstraint
+            baseColumnNames="created_by"
+            baseTableName="merchant_profile"
+            constraintName="fk_merchant_profile_cby"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="NO ACTION"
+            onUpdate="NO ACTION"
+            referencedColumnNames="id"
+            referencedTableName="system_user"
+            validate="true"/>
+        <addForeignKeyConstraint
+            baseColumnNames="updated_by"
+            baseTableName="merchant_profile"
+            constraintName="fk_merchant_profile_uby"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="NO ACTION"
+            onUpdate="NO ACTION"
+            referencedColumnNames="id"
+            referencedTableName="system_user"
+            validate="true"/>
+
+        <createTable tableName="merchant_detail">
+            <column name="id" type="INT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="address_1" type="VARCHAR(256)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="address_2" type="VARCHAR(256)"/>
+            <column name="city" type="VARCHAR(50)"/>
+            <column name="state" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="postal_code" type="VARCHAR(15)"/>
+            <column name="country" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="phone" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="fax" type="VARCHAR(20)"/>
+            <column name="website" type="VARCHAR(100)"/>
+            <column name="official_email" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="created_on" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="smallint">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="updated_on" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_by" type="smallint"/>
+        </createTable>
+        <addForeignKeyConstraint
+            baseColumnNames="created_by"
+            baseTableName="merchant_detail"
+            constraintName="fk_merchant_detail_cby"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="NO ACTION"
+            onUpdate="NO ACTION"
+            referencedColumnNames="id"
+            referencedTableName="system_user"
+            validate="true"/>
+        <addForeignKeyConstraint
+            baseColumnNames="updated_by"
+            baseTableName="merchant_detail"
+            constraintName="fk_merchant_detail_uby"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="NO ACTION"
+            onUpdate="NO ACTION"
+            referencedColumnNames="id"
+            referencedTableName="system_user"
+            validate="true"/>
+        <addForeignKeyConstraint
+            baseColumnNames="country"
+            baseTableName="merchant_detail"
+            constraintName="fk_merchant_detail_ctry"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="NO ACTION"
+            onUpdate="NO ACTION"
+            referencedColumnNames="id"
+            referencedTableName="country"
+            validate="true"/>
+        <addForeignKeyConstraint
+            baseColumnNames="state"
+            baseTableName="merchant_detail"
+            constraintName="fk_merchant_detail_state"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="NO ACTION"
+            onUpdate="NO ACTION"
+            referencedColumnNames="id"
+            referencedTableName="country_state"
+            validate="true"/>
+        <addForeignKeyConstraint
+            baseColumnNames="id"
+            baseTableName="merchant_detail"
+            constraintName="fk_merchant_detail_id"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="NO ACTION"
+            onUpdate="NO ACTION"
+            referencedColumnNames="id"
+            referencedTableName="merchant"
+            validate="true"/>
+
+        <createTable tableName="location">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="merchant_id" type="INT">
+                <constraints nullable="true"/>
+            </column>
+            <column name="code" type="VARCHAR(15)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(50)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="description" type="VARCHAR(512)"/>
+            <column name="additional_attribute" type="VARCHAR(512)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="pos_safty_flag" type="CHAR(1)" defaultValue="0">
+                <constraints nullable="true"/>
+            </column>
+            <column name="reversal_timeout" type="smallint" defaultValue="0">
+                <constraints nullable="true"/>
+            </column>
+            <column name="activated_on" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="expiry_on" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="locked" type="CHAR(1)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="deleted" type="CHAR(1)"/>
+            <column name="latitude" type="DOUBLE"/>
+            <column name="longitude" type="DOUBLE"/>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="created_on" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="smallint">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="updated_on" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_by" type="smallint"/>
+        </createTable>
+       <addForeignKeyConstraint
+    baseColumnNames="merchant_id"
+    baseTableName="location"
+    constraintName="fk_location_merid"
+    deferrable="false"
+    initiallyDeferred="false"
+    onDelete="SET NULL" 
+    onUpdate="NO ACTION"
+    referencedColumnNames="id"
+    referencedTableName="merchant"
+    validate="true"/>
+        <addForeignKeyConstraint
+            baseColumnNames="created_by"
+            baseTableName="location"
+            constraintName="fk_location_cby"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="NO ACTION"
+            onUpdate="NO ACTION"
+            referencedColumnNames="id"
+            referencedTableName="system_user"
+            validate="true"/>
+        <addForeignKeyConstraint
+            baseColumnNames="updated_by"
+            baseTableName="location"
+            constraintName="fk_location_uby"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="NO ACTION"
+            onUpdate="NO ACTION"
+            referencedColumnNames="id"
+            referencedTableName="system_user"
+            validate="true"/>
+        <createIndex tableName="location" indexName="code" unique="true">
+            <column name="merchant_id"/>
+            <column name="code"/>
+        </createIndex>
+
+        <createTable tableName="location_detail">
+            <column name="id" type="INT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="address_1" type="VARCHAR(256)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="address_2" type="VARCHAR(256)"/>
+            <column name="city" type="VARCHAR(50)"/>
+            <column name="state" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="postal_code" type="VARCHAR(15)"/>
+            <column name="country" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="phone" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="fax" type="VARCHAR(20)"/>
+            <column name="website" type="VARCHAR(100)"/>
+            <column name="official_email" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="created_on" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="smallint">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="updated_on" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_by" type="smallint"/>
+        </createTable>
+        <addForeignKeyConstraint
+            baseColumnNames="id"
+            baseTableName="location_detail"
+            constraintName="fk_location_detail_id"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="NO ACTION"
+            onUpdate="NO ACTION"
+            referencedColumnNames="id"
+            referencedTableName="location"
+            validate="true"/>
+        <addForeignKeyConstraint
+            baseColumnNames="created_by"
+            baseTableName="location_detail"
+            constraintName="fk_location_detail_cby"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="NO ACTION"
+            onUpdate="NO ACTION"
+            referencedColumnNames="id"
+            referencedTableName="system_user"
+            validate="true"/>
+        <addForeignKeyConstraint
+            baseColumnNames="updated_by"
+            baseTableName="location_detail"
+            constraintName="fk_location_detail_uby"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="NO ACTION"
+            onUpdate="NO ACTION"
+            referencedColumnNames="id"
+            referencedTableName="system_user"
+            validate="true"/>
+        <addForeignKeyConstraint
+            baseColumnNames="country"
+            baseTableName="location_detail"
+            constraintName="fk_location_detail_ctry"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="NO ACTION"
+            onUpdate="NO ACTION"
+            referencedColumnNames="id"
+            referencedTableName="country"
+            validate="true"/>
+        <addForeignKeyConstraint
+            baseColumnNames="state"
+            baseTableName="location_detail"
+            constraintName="fk_location_detail_state"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="NO ACTION"
+            onUpdate="NO ACTION"
+            referencedColumnNames="id"
+            referencedTableName="country_state"
+            validate="true"/>
+        
+        <createTable tableName="device_type">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="code" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="locked" type="CHAR(1)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="deleted" type="CHAR(1)"/>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="created_on" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="smallint">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="updated_on" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_by" type="smallint"/>
+        </createTable>
+        <addForeignKeyConstraint
+            baseColumnNames="created_by"
+            baseTableName="device_type"
+            constraintName="fk_device_type_cby"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="NO ACTION"
+            onUpdate="NO ACTION"
+            referencedColumnNames="id"
+            referencedTableName="system_user"
+            validate="true"/>
+        <addForeignKeyConstraint
+            baseColumnNames="updated_by"
+            baseTableName="device_type"
+            constraintName="fk_device_type_uby"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="NO ACTION"
+            onUpdate="NO ACTION"
+            referencedColumnNames="id"
+            referencedTableName="system_user"
+            validate="true"/>
+        
+        <createTable tableName="device_model">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="device_type" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="model_name" type="VARCHAR(150)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="created_on" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="smallint">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="updated_on" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_by" type="smallint"/>
+        </createTable>
+        <addUniqueConstraint
+            columnNames="device_type,model_name"
+            constraintName="uk_device_model"
+            tableName="device_model"/>
+        <addForeignKeyConstraint
+            baseColumnNames="device_type"
+            baseTableName="device_model"
+            constraintName="fk_device_model_device_type"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="NO ACTION"
+            onUpdate="NO ACTION"
+            referencedColumnNames="id"
+            referencedTableName="device_type"
+            validate="true"/>
+        <addForeignKeyConstraint
+            baseColumnNames="created_by"
+            baseTableName="device_model"
+            constraintName="fk_device_model_cby"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="NO ACTION"
+            onUpdate="NO ACTION"
+            referencedColumnNames="id"
+            referencedTableName="system_user"
+            validate="true"/>
+        <addForeignKeyConstraint
+            baseColumnNames="updated_by"
+            baseTableName="device_model"
+            constraintName="fk_device_model_uby"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="NO ACTION"
+            onUpdate="NO ACTION"
+            referencedColumnNames="id"
+            referencedTableName="system_user"
+            validate="true"/>
+        
+        <createTable tableName="device">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="location_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="merchant_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="code" type="VARCHAR(15)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="device_type" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="additional_attributes" type="json">
+                <constraints nullable="true"/>
+            </column>
+            <column name="device_safty_flag" type="CHAR(1)" defaultValue="0">
+                <constraints nullable="true"/>
+            </column>
+            <column name="reversal_timeout" type="smallint" defaultValue="0">
+                <constraints nullable="true"/>
+            </column>
+            <column name="device_model_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="activate_on" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="locked" type="CHAR(1)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ped_id" type="VARCHAR(25)">
+                <constraints nullable="true"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="created_on" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="smallint">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="updated_on" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_by" type="smallint"/>
+        </createTable>
+        <addForeignKeyConstraint
+            baseColumnNames="device_model_id"
+            baseTableName="device"
+            constraintName="fk_device_modelId"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="NO ACTION"
+            onUpdate="NO ACTION"
+            referencedColumnNames="id"
+            referencedTableName="device_model"
+            validate="true"/>
+        <addForeignKeyConstraint
+            baseColumnNames="location_id"
+            baseTableName="device"
+            constraintName="fk_device_locid"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="NO ACTION"
+            onUpdate="NO ACTION"
+            referencedColumnNames="id"
+            referencedTableName="location"
+            validate="true"/>
+        <addForeignKeyConstraint
+            baseColumnNames="merchant_id"
+            baseTableName="device"
+            constraintName="fk_device_merid"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="NO ACTION"
+            onUpdate="NO ACTION"
+            referencedColumnNames="id"
+            referencedTableName="merchant"
+            validate="true"/>
+        <addForeignKeyConstraint
+            baseColumnNames="device_type"
+            baseTableName="device"
+            constraintName="fk_device_device_type"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="NO ACTION"
+            onUpdate="NO ACTION"
+            referencedColumnNames="id"
+            referencedTableName="device_type"
+            validate="true"/>
+        <addForeignKeyConstraint
+            baseColumnNames="created_by"
+            baseTableName="device"
+            constraintName="fk_device_cby"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="NO ACTION"
+            onUpdate="NO ACTION"
+            referencedColumnNames="id"
+            referencedTableName="system_user"
+            validate="true"/>
+        <addForeignKeyConstraint
+            baseColumnNames="updated_by"
+            baseTableName="device"
+            constraintName="fk_device_uby"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="NO ACTION"
+            onUpdate="NO ACTION"
+            referencedColumnNames="id"
+            referencedTableName="system_user"
+            validate="true"/>
+        <createIndex tableName="device" indexName="code" unique="true">
+            <column name="location_id"/>
+            <column name="code"/>
+        </createIndex>
+
+        <createTable tableName="device_model_configuration">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="device_model_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="configuration_data" type="LONGTEXT">
+                <constraints nullable="true"/>
+            </column>
+            <column name="emv_data" type="LONGTEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="active" type="CHAR(1)" defaultValue="1">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="created_on" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="smallint">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="updated_on" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_by" type="smallint"/>
+        </createTable>
+        <addUniqueConstraint
+            columnNames="device_model_id,version"
+            constraintName="uk_device_model_configuration"
+            tableName="device_model_configuration"/>
+        <addForeignKeyConstraint
+            baseColumnNames="device_model_id"
+            baseTableName="device_model_configuration"
+            constraintName="fk_device_model_configuration_device_model_id"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="NO ACTION"
+            onUpdate="NO ACTION"
+            referencedColumnNames="id"
+            referencedTableName="device_model"
+            validate="true"/>
+        <addForeignKeyConstraint
+            baseColumnNames="created_by"
+            baseTableName="device_model_configuration"
+            constraintName="fk_device_model_configuration_cby"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="NO ACTION"
+            onUpdate="NO ACTION"
+            referencedColumnNames="id"
+            referencedTableName="system_user"
+            validate="true"/>
+        <addForeignKeyConstraint
+            baseColumnNames="updated_by"
+            baseTableName="device_model_configuration"
+            constraintName="fk_device_model_configuration_uby"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="NO ACTION"
+            onUpdate="NO ACTION"
+            referencedColumnNames="id"
+            referencedTableName="system_user"
+            validate="true"/>
+
+            
+    </changeSet>
+</databaseChangeLog>

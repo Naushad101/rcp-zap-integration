@@ -1,0 +1,112 @@
+<div class="container">
+  <div class="header">
+    <h2>Merchant Terminals</h2>
+    <button class="btn-primary create-btn" (click)="onSubmit()">
+      <i class="icon-plus"></i> Create Merchant Terminal
+    </button>
+  </div>
+
+  <div class="search-filter-section">
+    <div class="search-bar">
+      <input 
+        type="text" 
+        [(ngModel)]="filterValue" 
+        (input)="filterMerchantTerminals()" 
+        placeholder="Type to Search by Terminal ID, Ped ID etc..." 
+        class="search-input"
+      />
+      <button class="btn-secondary reset-btn" (click)="onReset()">Reset</button>
+    </div>
+    
+    <div class="filter-dropdowns">
+      <div class="filter-group">
+        <select class="filter-select" [(ngModel)]="selectedChainFilter" (change)="onChainFilterChange($event)">
+          <option value="">All Merchant Chains</option>
+          <option *ngFor="let chain of merchantChains" [value]="chain">{{ chain }}</option>
+        </select>
+      </div>
+      
+      <div class="filter-group">
+        <select class="filter-select" [(ngModel)]="selectedStoreFilter" (change)="onStoreFilterChange($event)">
+          <option value="">All Merchant Stores</option>
+          <option *ngFor="let store of merchantStores" [value]="store">{{ store }}</option>
+        </select>
+      </div>
+      
+      <div class="filter-group">
+        <select class="filter-select" [(ngModel)]="selectedStatusFilter" (change)="onStatusFilterChange($event)">
+          <option value="">All Status</option>
+          <option value="enabled">Enabled</option>
+          <option value="disabled">Disabled</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="table-container" *ngIf="!loading">
+    <div *ngIf="filteredMerchantTerminals.length === 0" class="no-data">
+      <p>No data to display</p>
+      <p class="record-count">Showing 0 out of 0 records</p>
+    </div>
+    
+    <div *ngIf="filteredMerchantTerminals.length > 0">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Terminal ID</th>
+            <th>PED Serial No.</th>
+            <th>Device Type</th>
+            <th>PED ID</th>
+            <th>Status</th>
+            <th>POS Safety</th>
+            <th>Active Since</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let terminal of filteredMerchantTerminals">
+            <td>{{ terminal.name }}</td>
+            <td>{{ terminal.terminalId }}</td>
+            <td>{{ terminal.pedSerialNo }}</td>
+            <td>{{ terminal.deviceType }}</td>
+            <td>{{ terminal.pedId }}</td>
+            <td>
+              <span class="status-badge" [ngClass]="{'enabled': terminal.status, 'disabled': !terminal.status}">
+                {{ getStatus(terminal) }}
+              </span>
+            </td>
+            <td>
+              <span class="status-badge" [ngClass]="{'enabled': terminal.posSafety, 'disabled': !terminal.posSafety}">
+                {{ terminal.posSafety ? 'ENABLED' : 'DISABLED' }}
+              </span>
+            </td>
+            <td>{{ terminal.activateOn | date:'mediumDate' }}</td>
+            <td>
+              <div class="action-buttons">
+                <button class="btn-action btn-view" (click)="onView(terminal.id!)" title="View">
+                  <i class="icon-eye"></i>
+                </button>
+                <button class="btn-action btn-edit" (click)="onEdit(terminal.id!)" title="Edit">
+                  <i class="icon-edit"></i>
+                </button>
+                <button class="btn-action btn-delete" (click)="onDelete(terminal.id!, terminal.name)" title="Delete">
+                  <i class="icon-trash"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      
+      <div class="record-count">
+        Showing {{ filteredMerchantTerminals.length }} out of {{ merchantTerminals.length }} records
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="loading" class="loading-spinner">
+    <div class="spinner"></div>
+    <p>Loading...</p>
+  </div>
+</div>

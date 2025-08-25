@@ -1,0 +1,250 @@
+// Container and Layout
+.container
+  max-width: 1200px
+  margin: 0 auto
+  padding: 24px
+  background-color: #f8f9fa
+
+.header
+  margin-bottom: 24px
+  
+  h2
+    color: #333
+    font-size: 28px
+    font-weight: 600
+    margin: 0
+
+// Back Button
+.back-button
+  margin-bottom: 24px
+
+.icon-button
+  display: inline-flex
+  align-items: center
+  gap: 8px
+  padding: 12px 16px
+  background-color: #6c757d
+  color: white
+  border: none
+  border-radius: 6px
+  cursor: pointer
+  font-size: 14px
+  font-weight: 500
+  text-decoration: none
+  transition: all 0.2s ease
+
+  &:hover
+    background-color: #5a6268
+    transform: translateY(-1px)
+
+  i
+    font-size: 14px
+
+// Form Sections
+.form-section
+  background: white
+  border-radius: 12px
+  padding: 32px
+  margin-bottom: 24px
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08)
+
+.form-row
+  display: grid
+  grid-template-columns: 1fr 1fr
+  gap: 24px
+  margin-bottom: 24px
+
+  &:last-child
+    margin-bottom: 0
+
+.form-group
+  display: flex
+  flex-direction: column
+
+  &.full-width
+    grid-column: 1 / -1
+
+  &.checkbox-group
+    justify-content: flex-end
+
+// Labels and Inputs
+label
+  font-weight: 600
+  color: #333
+  margin-bottom: 8px
+  font-size: 14px
+
+input, select, textarea
+  padding: 12px 16px
+  border: 2px solid #e0e0e0
+  border-radius: 8px
+  font-size: 14px
+  transition: all 0.2s ease
+  font-family: inherit
+
+  &:focus
+    outline: none
+    border-color: #007bff
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1)
+
+  &:disabled
+    background-color: #f8f9fa
+    color: #6c757d
+    cursor: not-allowed
+
+  &::placeholder
+    color: #999
+
+select
+  cursor: pointer
+  
+  &:disabled
+    cursor: not-allowed
+
+textarea
+  resize: vertical
+  min-height: 80px
+
+// Checkbox Styling
+.checkbox-group
+  align-items: flex-end
+
+.checkbox-wrapper
+  display: flex
+  align-items: center
+  gap: 12px
+  margin-top: 8px
+
+input[type="checkbox"]
+  width: 20px
+  height: 20px
+  cursor: pointer
+
+.checkbox-label
+  font-weight: 600
+  color: #28a745
+  font-size: 12px
+  text-transform: uppercase
+  letter-spacing: 0.5px
+
+// Loading States
+.loading-indicator
+  display: flex
+  align-items: center
+  gap: 8px
+  color: #6c757d
+  font-size: 12px
+  margin-top: 4px
+
+  i.fa-spinner
+    animation: spin 1s linear infinite
+
+@keyframes spin
+  from
+    transform: rotate(0deg)
+  to
+    transform: rotate(360deg)
+
+// Form Actions
+.form-actions
+  display: flex
+  gap: 16px
+  justify-content: flex-end
+  align-items: center
+  padding: 24px 32px
+  background: white
+  border-radius: 12px
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08)
+
+// Buttons
+.btn-cancel,
+.btn-submit,
+.btn-back,
+.btn-next
+  padding: 12px 24px
+  border: none
+  border-radius: 8px
+  font-size: 14px
+  font-weight: 600
+  cursor: pointer
+  transition: all 0.2s ease
+  display: inline-flex
+  align-items: center
+  gap: 8px
+
+.btn-cancel
+  background-color: #6c757d
+  color: white
+
+  &:hover:not(:disabled)
+    background-color: #5a6268
+    transform: translateY(-1px)
+
+.btn-submit
+  background-color: #28a745
+  color: white
+
+  &:hover:not(:disabled)
+    background-color: #218838
+    transform: translateY(-1px)
+
+  &:disabled
+    background-color: #94d3a2
+    cursor: not-allowed
+    transform: none
+
+.btn-back
+  background-color: #17a2b8
+  color: white
+
+  &:hover:not(:disabled)
+    background-color: #138496
+    transform: translateY(-1px)
+
+.btn-next
+  background-color: #007bff
+  color: white
+
+  &:hover:not(:disabled)
+    background-color: #0056b3
+    transform: translateY(-1px)
+
+// Responsive Design
+@media (max-width: 768px)
+  .container
+    padding: 16px
+
+  .form-section
+    padding: 24px 16px
+
+  .form-row
+    grid-template-columns: 1fr
+    gap: 16px
+
+  .form-actions
+    padding: 16px
+    flex-direction: column-reverse
+
+    .btn-cancel,
+    .btn-submit,
+    .btn-back,
+    .btn-next
+      width: 100%
+      justify-content: center
+
+// Error States
+input.ng-invalid.ng-touched,
+select.ng-invalid.ng-touched,
+textarea.ng-invalid.ng-touched
+  border-color: #dc3545
+  box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.1)
+
+// Success States  
+input.ng-valid.ng-touched,
+select.ng-valid.ng-touched,
+textarea.ng-valid.ng-touched
+  border-color: #28a745
+
+// Loading State for Dropdowns
+select[disabled]
+  background-image: none

@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="1" author="Vaibhav">
+
+        <createTable tableName="system_user_category">
+            <column autoIncrement="true" name="id" type="smallint">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="code" type="VARCHAR(30)">
+                <constraints nullable="false" unique="true" />
+            </column>
+            <column name="display_name" type="VARCHAR(50)">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+
+        <createTable tableName="system_user">
+            <column autoIncrement="true" name="id" type="smallint">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="user_id" type="VARCHAR(100)">
+                <constraints nullable="false" unique="true" />
+            </column>
+            <column name="first_name" type="VARCHAR(50)">
+                <constraints nullable="false" />
+            </column>
+            <column name="last_name" type="VARCHAR(50)">
+                <constraints nullable="false" />
+            </column>
+            
+            <column name="email" type="VARCHAR(100)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="system_user_category" type="smallint">
+                <constraints nullable="false" />
+            </column>
+            <column name="password" type="VARCHAR(100)">
+                <constraints nullable="false" />
+            </column>
+            <column name="password_updated_on" type="datetime" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false" />
+            </column>
+            <column name="locked" type="CHAR(1)">
+                <constraints nullable="true" />
+            </column>
+            <column name="deleted" type="CHAR(1)">
+                <constraints nullable="false" />
+            </column>
+            <column name="locked_reason" type="VARCHAR(100)">
+                <constraints nullable="true" />
+            </column>
+            <column name="created_on" type="datetime" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false" />
+            </column>
+            <column name="updated_on" type="datetime" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false" />
+            </column>
+            <column name="created_by" type="smallint">
+                <constraints nullable="false" />
+            </column>
+            <column name="updated_by" type="smallint"/>
+        </createTable>
+        <addForeignKeyConstraint
+            baseColumnNames="system_user_category"
+            baseTableName="system_user"
+            constraintName="fk_system_user_sucategory"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="NO ACTION"
+            onUpdate="NO ACTION"
+            referencedColumnNames="id"
+            referencedTableName="system_user_category"
+            validate="true"/>
+        <addForeignKeyConstraint
+            baseColumnNames="created_by"
+            baseTableName="system_user"
+            constraintName="fk_system_user_cby"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="NO ACTION"
+            onUpdate="NO ACTION"
+            referencedColumnNames="id"
+            referencedTableName="system_user"
+            validate="true"/>
+        <addForeignKeyConstraint
+            baseColumnNames="updated_by"
+            baseTableName="system_user"
+            constraintName="fk_system_user_uby"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="NO ACTION"
+            onUpdate="NO ACTION"
+            referencedColumnNames="id"
+            referencedTableName="system_user"
+            validate="true"/>
+
+        <createTable tableName="currency">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="code" type="CHAR(3)">
+                <constraints nullable="false" unique="true" />
+            </column>
+            <column name="iso_code" type="CHAR(3)">
+                <constraints nullable="false" unique="true" />
+            </column>
+            <column name="display_name" type="VARCHAR(50)">
+                <constraints nullable="false" />
+            </column>
+            <column name="active" type="CHAR(1)">
+                <constraints nullable="false" />
+            </column>
+            <column name="currency_minor_unit" type="CHAR(1)">
+                <constraints nullable="false" />
+            </column>
+            <column defaultValue="0" name="deleted" type="CHAR(1)">
+                <constraints nullable="false" />
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="created_on" type="datetime">
+                <constraints nullable="false" />
+            </column>
+            <column defaultValue="1" name="created_by" type="smallint">
+                <constraints nullable="false" />
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="updated_on" type="datetime">
+                <constraints nullable="false" />
+            </column>
+            <column defaultValue="1" name="updated_by" type="smallint" />
+        </createTable>
+
+        <createTable tableName="country">
+            <column name="id" type="INT" autoIncrement="true">
+                <constraints primaryKey="true" />
+            </column>
+            <column name="code" type="CHAR(3)">
+                <constraints nullable="false" unique="true" />
+            </column>
+            <column name="display_name" type="VARCHAR(50)">
+                <constraints nullable="false" />
+            </column>
+            <column name="currency" type="INT">
+                <constraints nullable="false" />
+            </column>
+            <column name="iso_code" type="CHAR(3)">
+                <constraints nullable="false" />
+            </column>
+            <column name="short_code" type="CHAR(2)">
+                <constraints nullable="false" />
+            </column>
+            <column name="isd_code" type="VARCHAR(15)">
+                <constraints nullable="false" />
+            </column>
+            <column name="active" type="CHAR(1)">
+                <constraints nullable="false" />
+            </column>
+            <column defaultValue="0" name="deleted" type="CHAR(1)">
+                <constraints nullable="false" />
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="created_on" type="datetime">
+                <constraints nullable="false" />
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="updated_on" type="datetime">
+                <constraints nullable="false" />
+            </column>
+            <column name="created_by" type="SMALLINT"/>
+            <column name="updated_by" type="SMALLINT"/>
+        </createTable>
+        <addForeignKeyConstraint baseColumnNames="created_by" baseTableName="country" constraintName="fk_country_cby" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="system_user" validate="true" />
+        <addForeignKeyConstraint baseColumnNames="updated_by" baseTableName="country" constraintName="fk_country_uby" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="system_user" validate="true" />
+        <addForeignKeyConstraint baseColumnNames="currency" baseTableName="country" constraintName="fk_country_cur" deferrable="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="currency" validate="true" />
+
+        <createTable tableName="country_state">
+            <column name="id" type="INT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="country" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="display_name" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="code" type="VARCHAR(15)"/>
+            <column name="active" type="CHAR(1)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValue="0" name="deleted" type="CHAR(1)">
+                <constraints nullable="false" />
+            </column>
+            <column name="created_on" type="datetime" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="1" name="created_by" type="smallint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_on" type="datetime" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="1" name="updated_by" type="smallint"/>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="country_state" baseColumnNames="created_by" referencedTableName="system_user" referencedColumnNames="id" onDelete="NO ACTION" onUpdate="NO ACTION" constraintName="fk_country_state_created_by" validate="true"/>
+        <addForeignKeyConstraint baseTableName="country_state" baseColumnNames="updated_by" referencedTableName="system_user" referencedColumnNames="id" onDelete="NO ACTION" onUpdate="NO ACTION" constraintName="fk_country_state_updated_by" validate="true"/>
+
+        <addForeignKeyConstraint baseTableName="country_state" baseColumnNames="country" referencedTableName="country" referencedColumnNames="id" onDelete="NO ACTION" onUpdate="NO ACTION" constraintName="fk_country_state_country_id" validate="true"/>
+    
+        <createTable tableName="acquirer_id_config">
+            <column name="id" type="INT" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="code" type="VARCHAR(25)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="name" type="VARCHAR(50)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="country_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="VARCHAR(100)"/>
+            <column name="active" type="CHAR(1)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="deleted" type="CHAR(1)">
+                <constraints nullable="false" />
+            </column>
+            <column defaultValueComputed="1" name="created_by" type="smallint">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="1" name="updated_by" type="smallint"/>
+            <column name="created_on" type="datetime" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_on" type="datetime" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="refund_offline" type="CHAR(1)"/>
+
+
+            <column name="onus_validate" type="CHAR(1)"/>
+            <column name="advice_match" type="BOOLEAN"/>
+            <column name="pos_sms" type="VARCHAR(255)"/>
+            <column name="pos_dms" type="VARCHAR(255)"/>
+            <column name="txtnype_sms" type="VARCHAR(255)"/>
+            <column name="txtnype_dms" type="VARCHAR(255)"/>
+            <column name="accounttype_sms" type="VARCHAR(255)"/>
+            <column name="accounttype_dms" type="VARCHAR(255)"/>
+
+
+        </createTable>
+        <addForeignKeyConstraint
+            baseColumnNames="created_by"
+            baseTableName="acquirer_id_config"
+            constraintName="fk_acquirer_id_config_cby"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="NO ACTION"
+            onUpdate="NO ACTION"
+            referencedColumnNames="id"
+            referencedTableName="system_user"
+            validate="true"/>
+        <addForeignKeyConstraint
+            baseColumnNames="updated_by"
+            baseTableName="acquirer_id_config"
+            constraintName="fk_acquirer_id_config_uby"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="NO ACTION"
+            onUpdate="NO ACTION"
+            referencedColumnNames="id"
+            referencedTableName="system_user"
+            validate="true"/>
+    </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="6" author="Vaibhav" failOnError="false">
+        <insert tableName="institution">
+            <column name="id" valueNumeric="1"/>
+            <column name="code" value="00000000001"/>
+            <column name="name" value="Institution_1"/>
+            <column name="description" value="Institution_1"/>
+            <column name="activate_on" valueDate="2025-01-01T00:00:00"/>
+            <column name="expiry_on" valueDate="2030-01-01T00:00:00"/>
+            <column name="locked" value="0"/>
+            <column name="deleted" value="0"/>
+            <column name="status" value="ACTIVE"/>
+            <column name="created_on" valueDate="NOW()"/>
+            <column name="created_by" valueNumeric="1"/>
+            <column name="updated_on" valueDate="NOW()"/>
+            <column name="updated_by" valueNumeric="1"/>
+        </insert>
+
+    </changeSet>
+</databaseChangeLog>

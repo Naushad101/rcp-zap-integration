@@ -1,0 +1,5 @@
+rootProject.name = 'reno-cloud-portal'
+
+include 'frontend'
+include 'backend'
+include 'dataclient'

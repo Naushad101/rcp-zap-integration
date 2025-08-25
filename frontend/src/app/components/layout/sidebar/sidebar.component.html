@@ -1,0 +1,86 @@
+<div class="sidebar">
+    <!-- Header -->
+    <div class="sidebar-header">
+        <i class="fa fa-cloud" aria-hidden="true"></i>Reno-Cloud
+    </div>
+
+    <!-- Navigation -->
+    <nav class="sidebar-nav">
+        <ul class="list-unstyled">
+            <!-- Setup Section -->
+            <li>
+                <button class="btn btn-link btn-block text-left" data-toggle="collapse" data-target="#setupMenu"
+                    aria-expanded="false">
+                    <i class="fa fa-cogs" aria-hidden="true"></i>Setup
+                </button>
+                <ul class="collapse collapse-menu list-unstyled pl-3" id="setupMenu">
+                    <li>
+                        <a routerLink="/layout/acquirer" routerLinkActive="active">Acquirer</a>
+                    </li>
+                    <li>
+                        <a routerLink="/layout/merchant-group" routerLinkActive="active">Merchant Group</a>
+                    </li>
+                    <li>
+                        <a routerLink="/layout/merchant-chain" routerLinkActive="active">Merchant Chain</a>
+                    </li>
+                    <li>
+                        <a routerLink="/layout/merchant-stores" routerLinkActive="active">Merchant Stores</a>
+                    </li>
+                    <li>
+                        <a routerLink="/layout/merchant-terminals" routerLinkActive="active">Merchant Terminals</a>
+                    </li>
+                    <li>
+                        <a data-toggle="collapse" data-target="#terminalClassificationMenu"
+                        aria-expanded="false"> Terminal Classification</a>
+                        <ul class="collapse collapse-menu list-unstyled pl-3" id="terminalClassificationMenu">
+                            <li>
+                                <a routerLink="/layout/terminal-types" routerLinkActive="active">Terminal Types</a>
+                            </li>
+                            <li>
+                                <a routerLink="/layout/terminal-vendors" routerLinkActive="active">Terminal Vendors</a>
+                            </li>
+                            <li>
+                                <a routerLink="/layout/terminal-sitings" routerLinkActive="active">Terminal Sittings</a>
+                            </li>
+                            <li>
+                                <a routerLink="/layout/terminal-models" routerLinkActive="active">Terminal Models</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+
+            <!-- Settings Section -->
+            <li>
+                <button class="btn btn-link btn-block text-left" data-toggle="collapse" data-target="#settingsMenu"
+                    aria-expanded="false">
+                    <i class="fa fa-cog" aria-hidden="true"></i>Settings
+                </button>
+                <ul class="collapse collapse-menu list-unstyled pl-3" id="settingsMenu">
+                    <li>
+                        <a routerLink="/layout/currency" routerLinkActive="active">Currency</a>
+                    </li>
+                    <li>
+                        <a routerLink="/layout/country" routerLinkActive="active">Country</a>
+                    </li>
+                    <li>
+                        <a routerLink="/layout/country-state" routerLinkActive="active">Country State</a>
+                    </li>
+                </ul>
+            </li>
+
+            <!-- Audit Log Section -->
+            <li>
+                <button class="btn btn-link btn-block text-left" data-toggle="collapse" data-target="#auditLogMenu"
+                    aria-expanded="false">
+                    <i class="fa fa-credit-card" aria-hidden="true"></i>Audit Log
+                </button>
+                <ul class="collapse collapse-menu list-unstyled pl-3" id="auditLogMenu">
+                    <li>
+                        <a routerLink="/layout/audit-log" routerLinkActive="active">Audit Log</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+</div>

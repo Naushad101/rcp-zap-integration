@@ -1,0 +1,70 @@
+<div class="main-container">
+
+  <div class="header">
+    <div class="name-box">
+      <i class="fa fa-bars" aria-hidden="true"></i>
+      <h4>Currencies</h4>
+    </div>
+    <div class="search-box">
+      <input type="text" class="form-control" placeholder="Type to Filter by Currency" [(ngModel)]="filterValue" (keyup.enter)="onEnterKey($event)">
+      <button id="reset-button" (click)="onReset()">Reset</button>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="dropdown">
+      <button class="btn btn-secondary dropdown-toggle bg-white text-dark" type="button" id="dropdownMenuButton"
+        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        {{ selectedStatusLabel }}
+      </button>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <a class="dropdown-item" href="#" (click)="filterByStatus($event, 'all')">All Status</a>
+        <a class="dropdown-item" href="#" (click)="filterByStatus($event, '1')">Active</a>
+        <a class="dropdown-item" href="#" (click)="filterByStatus($event, '0')">Inactive</a>
+      </div>
+    </div>
+
+    <div class="create-button">
+      <button class="btn btn-primary" type="submit">
+        <a routerLink="/currency/create" (click)="navigateToCreateCurrency()">
+          <i class="fa fa-plus-circle" aria-hidden="true"></i>
+          Create Currency
+        </a>
+      </button>
+      
+    </div>
+  </div>
+
+  <div class="main-content">
+    <div class="table-container">
+      <table class="table table-striped">
+        <caption class="sr-only">List of currencies with their details including name, status, code, ISO code, and minor unit</caption>
+        <thead>
+          <tr>
+            <th>Currency</th>
+            <th>Status</th>
+            <th>Code</th>
+            <th>ISO Code</th>
+            <th>Currency Minor Unit</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let currency of filteredCurrencies; let i = index">
+            <td>{{ currency.currencyName }}</td>
+            <td>
+              <div class="custom-control custom-switch">
+                <input type="checkbox" class="custom-control-input" [id]="'status' + i"
+                       [checked]="currency.active === '1'" (change)="updateCurrencyStatus(currency)">
+                <label class="custom-control-label" [for]="'status' + i"></label>
+              </div>
+            </td>
+            <td>{{ currency.code }}</td>
+            <td>{{ currency.isoCode }}</td>
+            <td>{{ currency.currencyMinorUnit }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  
+</div>

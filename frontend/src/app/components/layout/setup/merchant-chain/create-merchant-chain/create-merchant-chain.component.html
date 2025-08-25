@@ -1,0 +1,308 @@
+<div class="main-container">
+
+    <div class="header">
+        <div class="name-box">
+            <i class="fa fa-bars" aria-hidden="true"></i>
+            <h4>{{pageTitle}} Merchant Chain</h4>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="back-button">
+            <a routerLink="/layout/merchant-chain">
+                <i class="fa fa-arrow-circle-o-left" aria-hidden="true"></i>
+                Back
+            </a>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="form-container">
+
+            <div class="page-section">
+                <div class="page-step">
+                    <h6><span [class.active]="currentPage === 1" class="step step-one">1</span> General Info</h6>
+                </div>
+                <div class="page-line"></div>
+                <div class="page-step">
+                    <h6><span [class.active]="currentPage === 2" class="step step-two">2</span> Merchant Option</h6>
+                </div>
+                <div class="page-line"></div>
+                <div class="page-step">
+                    <h6><span [class.active]="currentPage === 3" class="step step-three">3</span> ATM Option</h6>
+                </div>
+                <div class="page-line"></div>
+                <div class="page-step">
+                    <h6><span [class.active]="currentPage === 4" class="step step-four">4</span> Contact Info</h6>
+                </div>
+            </div>
+
+            <form class="mt-5" #merchantForm="ngForm" (ngSubmit)="onSubmit()">
+
+                <!-- Page 1: General Info -->
+                <div *ngIf="currentPage === 1">
+
+                    <div class="form-group">
+                        <label for="merchantChainName">Merchant Chain Name <i id="asterisk">*</i></label>
+                        <input id="merchantChainName" type="text" class="form-control" name="merchantChainName" required
+                            [(ngModel)]="merchant.name" maxlength="50">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <textarea id="description" class="form-control" name="description" maxlength="512" [(ngModel)]="merchant.description"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="merchantGroup">Merchant Group <i id="asterisk">*</i></label>
+                        <select id="merchantGroup" class="form-control" name="merchantGroup" required
+                            [(ngModel)]="merchant.merchantInstitution!.id">
+                            <option [ngValue]="null" disabled>Merchant Group</option>
+                            <option *ngFor="let merchantInstitution of activeMerchantInstitutions"
+                                [ngValue]="merchantInstitution.id">{{ merchantInstitution.name }}</option>
+                        </select>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="activeSince">Active Since <i id="asterisk">*</i></label>
+                            <input id="activeSince" type="datetime-local" class="form-control" name="activeSince"
+                                [(ngModel)]="merchant.activateOn" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="activeTo">Active To <i id="asterisk">*</i></label>
+                            <input id="activeTo" type="datetime-local" class="form-control" name="activeTo"
+                                [(ngModel)]="merchant.expiryOn" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="posSafety">POS Safety</label>
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="posSafety" name="posSafety"
+                                [checked]="merchant.posSafetyFlag === '1'" (change)="onPosSafetyToggle($event)" />
+                            <label class="form-check-label" for="posSafety">DISABLED</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="status">Status</label>
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="status" name="status" />
+                            <label class="form-check-label" for="status">DISABLED</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group d-flex justify-content-end">
+                        <button type="button" class="btn btn-primary" (click)="nextPage()">Next</button>
+                    </div>
+                </div>
+
+                <!-- Page 2: Merchant Option -->
+                <div *ngIf="currentPage === 2">
+
+                    <div class="form-group">
+                        <label for="merchantCategoryCode">Merchant Category Code <i id="asterisk">*</i></label>
+                        <select id="merchantGroup" class="form-control" name="merchantGroup" required
+                            [(ngModel)]="merchant.merchantProfile!.categoryCode">
+                            <option [ngValue]="null" disabled>Merchant Category Code</option>
+                            <option *ngFor="let mcc of merchantCategoryCodes" [ngValue]="mcc.id">{{ mcc.code }}</option>
+                        </select>
+                    </div>
+
+                    <div class="form-check">
+                        <input id="status" type="checkbox" class="form-check-input" name="status"
+                            [checked]="merchant.merchantProfile?.partialAuth === '1'"
+                            (change)="onPartialAuthChange($event)" />
+                        <label class="form-check-label" for="status">Partial Auth</label>
+                    </div>
+
+
+                    <div class="form-group mt-3">
+                        <label for="services">Services <i id="asterisk">*</i></label>
+
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="authService" name="services"
+                                value="AUTH_SERVICE" (change)="onServiceChange($event)" />
+                            <label class="form-check-label" for="authService">AUTH_SERVICE</label>
+                        </div>
+
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="cardService" name="services"
+                                value="CARD_SERVICE" (change)="onServiceChange($event)" />
+                            <label class="form-check-label" for="cardService">CARD_SERVICE</label>
+                        </div>
+
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="fraudService" name="services"
+                                value="FRAUD_SERVICE" (change)="onServiceChange($event)" />
+                            <label class="form-check-label" for="fraudService">FRAUD_SERVICE</label>
+                        </div>
+
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="jsonService" name="services"
+                                value="JSON_SERVICE" (change)="onServiceChange($event)" />
+                            <label class="form-check-label" for="jsonService">JSON_SERVICE</label>
+                        </div>
+
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="loyaltyService" name="services"
+                                value="LOYALTY_SERVICE" (change)="onServiceChange($event)" />
+                            <label class="form-check-label" for="loyaltyService">LOYALTY_SERVICE</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group d-flex justify-content-between">
+                        <button type="button" class="btn btn-secondary" (click)="previousPage()">Back</button>
+                        <button type="button" class="btn btn-primary" (click)="nextPage()">Next</button>
+                    </div>
+                </div>
+
+                <!-- Page 3: ATM Option -->
+                <div *ngIf="currentPage === 3">
+                    <div class="form-group row">
+                        <label for="masterKeyExpiredPeriod" class="col-sm-4 col-form-label">Master Key Expired
+                            Period</label>
+                        <div class="col-sm-4">
+                            <select class="form-control" id="masterKeyExpiredUnit" name="masterKeyExpiredUnit"
+                                [(ngModel)]="merchant.atmOption!.masterkeyexpirytimeunit">
+                                <option [ngValue]="null" disabled>Master Key Expired Period</option>
+                                <option>Days</option>
+                                <option>Hours</option>
+                                <option>Minutes</option>
+                            </select>
+                        </div>
+
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" id="masterKeyExpiredPeriod"
+                                name="masterKeyExpiredPeriod" placeholder="Please Enter Period"
+                                [(ngModel)]="merchant.atmOption!.masterkeyexpiryvalue" />
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="pinKeyExpiredPeriod" class="col-sm-4 col-form-label">PIN Key Expired Period</label>
+                        <div class="col-sm-4">
+                            <select class="form-control" id="pinKeyExpiredUnit" name="pinKeyExpiredUnit"
+                                [(ngModel)]="merchant.atmOption!.pinkeyexpirytimeunit">
+                                <option [ngValue]="null" disabled>PIN Key Expired Period</option>
+                                <option>Days</option>
+                                <option>Hours</option>
+                                <option>Minutes</option>
+                            </select>
+                        </div>
+
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" id="pinKeyExpiredPeriod" name="pinKeyExpiredPeriod"
+                                placeholder="Please Enter Period"
+                                [(ngModel)]="merchant.atmOption!.pinkeyexpiryperiod" />
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="currency" class="col-sm-4 col-form-label">Currency</label>
+                        <div class="col-sm-8">
+                            <select class="form-control" id="currency" name="currency"
+                                [(ngModel)]="merchant.atmOption!.currency">
+                                <option [ngValue]="null" disabled>Currency</option>
+                                <option *ngFor="let currency of activeCurrencies" [ngValue]="currency.code">
+                                    {{ currency.code }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-9">
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="dcc" name="dcc"
+                                    [(ngModel)]="merchant.atmOption!.dccflag" />
+                                <label class="form-check-label" for="dcc">DCC</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group d-flex justify-content-between">
+                        <button type="button" class="btn btn-secondary" (click)="previousPage()">Back</button>
+                        <button type="button" class="btn btn-primary" (click)="nextPage()">Next</button>
+                    </div>
+                </div>
+                <!-- Page 4: Contact Info -->
+                <div *ngIf="currentPage === 4">
+                    <div class="form-group">
+                        <label for="email">Email <i id="asterisk">*</i></label>
+                        <input id="email" type="email" class="form-control" name="email" required maxlength="100"
+                            [(ngModel)]="merchant.merchantDetail!.email">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="phone">Phone <i id="asterisk">*</i></label>
+                            <input type="text" class="form-control" name="phone" maxlength="20"
+                                [(ngModel)]="merchant.merchantDetail!.phone">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="fax">Fax</label>
+                            <input type="text" class="form-control" name="fax" maxlength="20"
+                                [(ngModel)]="merchant.merchantDetail!.fax">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="address1">Address Line One <i id="asterisk">*</i></label>
+                        <input type="text" class="form-control" name="address1" maxlength="256"
+                            [(ngModel)]="merchant.merchantDetail!.address1" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="address2">Address Line Two</label>
+                        <input type="text" class="form-control" name="address2" maxlength="256"
+                            [(ngModel)]="merchant.merchantDetail!.address2">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="country">Country <i id="asterisk">*</i></label>
+                            <select class="form-control" id="country" name="country" required
+                                [(ngModel)]="merchant.merchantDetail!.country" (ngModelChange)="onCountryChange()">
+                                <option [ngValue]="null" disabled>Country</option>
+                                <option *ngFor="let country of activeCountries" [ngValue]="country">{{ country.name }}
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label for="state">State <i id="asterisk">*</i></label>
+                            <select class="form-control" id="state" name="state" required
+                                [(ngModel)]="merchant.merchantDetail!.countryState">
+                                <option [ngValue]="null" disabled>State</option>
+                                <option *ngFor="let state of activeCountryStates" [ngValue]="state">{{ state.name }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="city">City <i id="asterisk">*</i></label>
+                            <input type="text" class="form-control" name="city"
+                                [(ngModel)]="merchant.merchantDetail!.city" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="code">Zip Code <i id="asterisk">*</i></label>
+                            <input type="text" class="form-control" name="code"
+                                [(ngModel)]="merchant.merchantDetail!.zip" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group d-flex justify-content-between">
+                        <button type="button" class="btn btn-secondary" (click)="previousPage()">Back</button>
+                        <button type="submit" class="btn btn-primary">
+                            {{ isEditMode ? 'Update' : 'Create' }}
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

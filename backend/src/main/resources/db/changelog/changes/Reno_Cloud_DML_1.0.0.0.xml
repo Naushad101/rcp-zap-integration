@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="2" author="Vaibhav" failOnError="false">
+
+        <insert tableName="system_user_category">
+            <column name="id" valueNumeric="1"/>
+            <column name="code" value="SYS_USER"/>
+            <column name="display_name" value="System_User"/>
+        </insert>
+        
+        <insert tableName="system_user">
+            <column name="id" valueNumeric="1"/>
+            <column name="user_id" value="sys_admin"/>
+            <column name="first_name" value="Reno"/>
+            <column name="last_name" value="Admin"/>
+            <column name="email" value="reno.admin@renovite.com"/>
+            <column name="system_user_category" valueNumeric="1"/>
+            <column name="password" value="9AHRz1ElALzTEdFKIKywyzEZh0IcZ/INhbGkbc0Qb84="/>
+            <column name="password_updated_on" value="2025-05-12T11:55:36"/>
+            <column name="locked" value="0"/>
+            <column name="deleted" value="0"/>
+            <column name="locked_reason"/>
+            <column name="created_on" value="2025-05-12T11:55:36"/>
+            <column name="created_by" valueNumeric="1"/>
+            <column name="updated_on" value="2025-05-12T11:55:36"/>
+            <column name="updated_by"/>
+        </insert>
+        <insert tableName="system_user">
+            <column name="id" valueNumeric="2"/>
+            <column name="user_id" value="batch_admin"/>
+            <column name="first_name" value="Reno"/>
+            <column name="last_name" value="Batch-Admin"/>
+            <column name="email" value="reno-batch.admin@renovite.com"/>
+            <column name="system_user_category" valueNumeric="1"/>
+            <column name="password" value="9AHRz1ElALzTEdFKIKywyzEZh0IcZ/INhbGkbc0Qb84="/>
+            <column name="password_updated_on" value="2025-05-12T11:55:36"/>
+            <column name="locked" value="0"/>
+            <column name="deleted" value="0"/>
+            <column name="locked_reason"/>
+            <column name="created_on" value="2025-05-12T11:55:36"/>
+            <column name="created_by" valueNumeric="1"/>
+            <column name="updated_on" value="2025-05-12T11:55:36"/>
+            <column name="updated_by"/>
+        </insert>
+        <insert tableName="system_user">
+            <column name="id" valueNumeric="3"/>
+            <column name="user_id" value="sys_user"/>
+            <column name="first_name" value="Checker"/>
+            <column name="last_name" value="User"/>
+            <column name="email" value="checker.user@renovite.com"/>
+            <column name="system_user_category" valueNumeric="1"/>
+            <column name="password" value="9AHRz1ElALzTEdFKIKywyzEZh0IcZ/INhbGkbc0Qb84="/>
+            <column name="password_updated_on" value="2025-05-12T11:55:36"/>
+            <column name="locked" value="0"/>
+            <column name="deleted" value="0"/>
+            <column name="locked_reason"/>
+            <column name="created_on" value="2025-05-12T11:55:36"/>
+            <column name="created_by" valueNumeric="1"/>
+            <column name="updated_on" value="2025-05-12T11:55:36"/>
+            <column name="updated_by"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>

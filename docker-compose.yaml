@@ -1,0 +1,92 @@
+services:
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: rcp-backend
+    ports:
+      - "8081:8081"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://bnt-cnx-mysql:3306/rcp-db
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      OTEL_SERVICE_NAME: rcp-backend
+    env_file:
+      - ./env/otel-config.env
+    networks:
+      - bnt-cnx-network
+    # healthcheck:
+    #   test: ["CMD", "curl", "-fs", "http://localhost:8081/actuator/health"]
+    #   interval: 10s
+    #   timeout: 5s
+    #   retries: 5
+    #   start_period: 30s
+
+  dataclient:
+    build:
+      context: ./dataclient
+      dockerfile: Dockerfile
+    container_name: rcp-dataclient
+    ports:
+      - "8082:8082"
+    environment:
+      backend.url: http://rcp-backend:8081/database-sync-up
+      SPRING_DATASOURCE_URL: jdbc:mysql://bnt-cnx-mysql:3306/reno-atm-server-db
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      OTEL_SERVICE_NAME: dataclient
+    env_file:
+      - ./env/otel-config.env
+    # depends_on:
+    #   backend:
+    #     condition: service_healthy
+    networks:
+      - bnt-cnx-network
+
+  # frontend:
+  #   build:
+  #     context: ./frontend
+  #     dockerfile: Dockerfile
+  #   container_name: rcp-frontend
+  #   ports:
+  #     - "4201:80"
+  #   depends_on:
+  #     backend:
+  #       condition: service_healthy
+  #   networks:
+  #     - bnt-cnx-network
+
+  zap:
+    image: ghcr.io/zaproxy/zaproxy:stable
+    container_name: zap
+    command: >
+      zap.sh -daemon -host 0.0.0.0 -port 8090 
+      -config api.disablekey=true 
+      -config api.addrs.addr.name=.* 
+      -config api.addrs.addr.regex=true
+      -config log.level=DEBUG
+      -config log.file=/zap/wrk/zap.log
+      -config scanner.strength=MEDIUM
+      -config spider.maxDepth=5
+      -config spider.maxChildren=10
+      -config connection.timeoutInSecs=60
+      -addonupdate
+    ports:
+      - "8090:8090"
+    networks:
+      - bnt-cnx-network
+    volumes:
+      - ./zap_reports:/zap/wrk/:rw
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8090"]
+      interval: 30s
+      timeout: 10s
+      retries: 7
+      start_period: 60s
+    environment:
+      - ZAP_LOG_LEVEL=INFO
+
+networks:
+  bnt-cnx-network:
+    external: true

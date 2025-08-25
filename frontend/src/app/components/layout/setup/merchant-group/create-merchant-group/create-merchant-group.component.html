@@ -1,0 +1,158 @@
+<div class="main-container">
+
+  <div class="header">
+    <div class="name-box">
+      <i class="fa fa-bars" aria-hidden="true"></i>
+      <h4>{{ pageTitle }} Merchant Group</h4>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="back-button">
+      <a routerLink="/layout/merchant-group">
+        <i class="fa fa-arrow-circle-o-left" aria-hidden="true"></i>
+        Back
+      </a>
+    </div>
+  </div>
+
+  <div class="main-content">
+    <div class="form-container">
+
+      <div class="page-section">
+        <div class="page-step">
+          <h6><span [class.active]="currentPage === 1" class="step step-one">1</span> General Info</h6>
+        </div>
+        <div class="page-line"></div>
+        <div class="page-step">
+          <h6><span [class.active]="currentPage === 2" class="step step-two">2</span> Contact Info</h6>
+        </div>
+      </div>
+
+      <form class="mt-5" #merchantForm="ngForm" (ngSubmit)="onSubmit()">
+
+        <!-- Page 1: General Info -->
+        <div *ngIf="currentPage === 1">
+
+          <div class="form-group">
+            <label for="merchantGroupName">Merchant Group Name <i id="asterisk">*</i></label>
+            <input id="merchantGroupName" type="text" class="form-control" name="merchantGroupName" required
+              [(ngModel)]="merchantInstitution.name" maxlength="50" [disabled]="isDisabled">
+          </div>
+
+          <div class="form-group">
+            <label for="description">Description</label>
+            <textarea id="description" class="form-control" name="description"
+              [(ngModel)]="merchantInstitution.description" maxlength="512" [disabled]="isDisabled"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="acquirerName">Acquirer Name <i id="asterisk">*</i></label>
+            <select id="acquirerName" class="form-control" name="acquirerName" required
+              [(ngModel)]="merchantInstitution.acquirer!.id" [disabled]="isDisabled">
+              <option value="">Please Select Acquirer</option>
+              <option *ngFor="let acquirer of activeAcquirers" [ngValue]="acquirer.id">{{ acquirer.name }}</option>
+            </select>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="activeSince">Active Since <i id="asterisk">*</i></label>
+              <input id="activeSince" type="datetime-local" class="form-control" name="activeSince" required
+                [(ngModel)]="merchantInstitution.activateOn" [disabled]="isDisabled">
+            </div>
+            <div class="form-group col-md-6">
+              <label for="activeTo">Active To <i id="asterisk">*</i></label>
+              <input id="activeTo" type="datetime-local" class="form-control" name="activeTo" required
+                [(ngModel)]="merchantInstitution.expiryOn" [disabled]="isDisabled">
+            </div>
+          </div>
+
+          <div class="form-check">
+            <input id="status" type="checkbox" class="form-check-input" name="status" [(ngModel)]="isDisabled">
+            <label class="form-check-label" for="status">DISABLED</label>
+          </div>
+
+          <div class="form-group d-flex justify-content-end">
+            <button type="button" class="btn btn-primary" (click)="nextPage()" [disabled]="isDisabled">Next</button>
+          </div>
+        </div>
+
+
+        <!-- Page 2: Contact Info -->
+        <div *ngIf="currentPage === 2">
+
+          <div class="form-group">
+            <label for="email">Email <i id="asterisk">*</i></label>
+            <input id="email" type="email" class="form-control" name="email" required
+              [(ngModel)]="merchantInstitution.merchantInstitutionDetail!.email" maxlength="100">
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="phone">Phone <i id="asterisk">*</i></label>
+              <input type="text" class="form-control" name="phone"
+                [(ngModel)]="merchantInstitution.merchantInstitutionDetail!.phone" maxlength="20">
+            </div>
+            <div class="form-group col-md-6">
+              <label for="fax">Fax</label>
+              <input type="text" class="form-control" name="fax"
+                [(ngModel)]="merchantInstitution.merchantInstitutionDetail!.fax" maxlength="20">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="address1">Address Line One <i id="asterisk">*</i></label>
+            <input type="text" class="form-control" name="address1"
+              [(ngModel)]="merchantInstitution.merchantInstitutionDetail!.address1" maxlength="256">
+          </div>
+
+          <div class="form-group">
+            <label for="address2">Address Line Two</label>
+            <input type="text" class="form-control" name="address2"
+              [(ngModel)]="merchantInstitution.merchantInstitutionDetail!.address2" maxlength="256">
+          </div>
+
+          <div class="form-group">
+            <label for="country">Country <i id="asterisk">*</i></label>
+            <select class="form-control" name="country" required
+              [(ngModel)]="merchantInstitution.merchantInstitutionDetail!.country" (ngModelChange)="onCountryChange()">
+              <option value="">Please Select Country</option>
+              <option *ngFor="let country of activeCountries" [ngValue]="country">{{ country.name }}</option>
+            </select>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="countryState">State <i id="asterisk">*</i></label>
+              <select class="form-control" name="countryState" required
+                [(ngModel)]="merchantInstitution.merchantInstitutionDetail!.countryState">
+                <option value="">Please Select State</option>
+                <option *ngFor="let state of activeCountryStates" [ngValue]="state">{{ state.name }}</option>
+              </select>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="city">City <i id="asterisk">*</i></label>
+              <input type="text" class="form-control" name="city"
+                [(ngModel)]="merchantInstitution.merchantInstitutionDetail!.city" maxlength="50">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="zip">Zip Code <i id="asterisk">*</i></label>
+            <input type="text" class="form-control" name="zip"
+              [(ngModel)]="merchantInstitution.merchantInstitutionDetail!.zip" maxlength="15">
+          </div>
+
+          <div class="form-group d-flex justify-content-between">
+            <button type="button" class="btn btn-secondary" (click)="previousPage()">Back</button>
+            <button type="submit" class="btn btn-primary">
+                {{ isEditMode ? 'Update' : 'Create' }}
+            </button>
+          </div>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>

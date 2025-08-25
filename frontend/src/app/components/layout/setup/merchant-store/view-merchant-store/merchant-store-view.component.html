@@ -1,0 +1,237 @@
+<div class="container">
+  <div class="header">
+    <div class="header-left">
+      <button class="back-button" (click)="goBack()" aria-label="Back to list">
+        <i class="fa fa-arrow-left" aria-hidden="true"></i>
+      </button>
+      <h2>Merchant Store Details</h2>
+    </div>
+
+    <div class="action-buttons" *ngIf="merchantStore && !loading">
+      <button class="btn-edit" (click)="onEdit()">
+        <i class="fa fa-edit" aria-hidden="true"></i>
+        Edit
+      </button>
+      <button class="btn-delete" (click)="onDelete()">
+        <i class="fa fa-trash" aria-hidden="true"></i>
+        Delete
+      </button>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div class="loading-container" *ngIf="loading">
+    <div class="spinner"></div>
+    <p>Loading merchant store details...</p>
+  </div>
+
+  <!-- Error State -->
+  <div class="error-container" *ngIf="error && !loading">
+    <div class="error-icon">
+      <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+    </div>
+    <h3>{{ error }}</h3>
+    <button class="btn-retry" (click)="retry()">
+      <i class="fa fa-refresh" aria-hidden="true"></i>
+      Retry
+    </button>
+  </div>
+
+  <!-- Content -->
+  <div class="content" *ngIf="merchantStore && !loading && !error">
+    <!-- Basic Information Section -->
+    <div class="info-card">
+      <div class="card-header">
+        <h3>
+          <i class="fa fa-info-circle" aria-hidden="true"></i>
+          Basic Information
+        </h3>
+      </div>
+      <div class="card-content">
+        <div class="info-grid">
+          <div class="info-item">
+            <label>Store Name:</label>
+            <span class="value highlight">{{ merchantStore.name }}</span>
+          </div>
+          <div class="info-item">
+            <label>Store ID:</label>
+            <span class="value highlight">{{ merchantStore.code }}</span>
+          </div>
+          <div class="info-item">
+            <label>Description:</label>
+            <span class="value">{{ merchantStore.description || 'N/A' }}</span>
+          </div>
+          <div class="info-item">
+            <label>Merchant ID:</label>
+            <span class="value highlight">{{ merchantStore.locationId || 'N/A' }}</span>
+          </div>
+          <div class="info-item">
+            <label>Region:</label>
+            <span class="value">{{ getRegionName(merchantStore.region) }}</span>
+          </div>
+          <div class="info-item">
+            <label>Sub Merchant Store:</label>
+            <span class="value">{{ merchantStore.sublocation ? 'Yes' : 'No' }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Status Information Section -->
+    <div class="info-card">
+      <div class="card-header">
+        <h3>
+          <i class="fa fa-flag" aria-hidden="true"></i>
+          Status Information
+        </h3>
+      </div>
+      <div class="card-content">
+        <div class="info-grid">
+          <div class="info-item">
+            <label>Status:</label>
+            <div class="status-badge" [ngClass]="getStatus()?.toLowerCase()">
+              <i class="fa" [ngClass]="getStatus() === 'Enabled' ? 'fa-check-circle' : 'fa-times-circle'" aria-hidden="true"></i>
+              {{ getStatus() }}
+            </div>
+          </div>
+          <div class="info-item">
+            <label>POS Safety:</label>
+            <div class="status-badge" [ngClass]="merchantStore.posSafetyFlag === 'Y' ? 'enabled' : 'disabled'">
+              <i class="fa" [ngClass]="merchantStore.posSafetyFlag === 'Y' ? 'fa-shield' : 'fa-shield-alt'" aria-hidden="true"></i>
+              {{ merchantStore.posSafetyFlag === 'Y' ? 'Enabled' : 'Disabled' }}
+            </div>
+          </div>
+          <div class="info-item">
+            <label>Active Since:</label>
+            <span class="value">{{ formatDate(merchantStore.activateOn) }}</span>
+          </div>
+          <div class="info-item">
+            <label>Active To:</label>
+            <span class="value">{{ formatDate(merchantStore.expiryOn) }}</span>
+          </div>
+          <div class="info-item">
+            <label>Deleted:</label>
+            <span class="value">{{ merchantStore.deleted === 'Y' ? 'Yes' : 'No' }}</span>
+          </div>
+          <div class="info-item">
+            <label>Locked:</label>
+            <span class="value">{{ merchantStore.locked === 'Y' ? 'Yes' : 'No' }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Contact Information Section -->
+    <div class="info-card">
+      <div class="card-header">
+        <h3>
+          <i class="fa fa-address-book" aria-hidden="true"></i>
+          Contact Information
+        </h3>
+      </div>
+      <div class="card-content">
+        <div class="info-grid">
+          <div class="info-item">
+            <label>Email:</label>
+            <span class="value">
+              <a *ngIf="merchantStore.email" [href]="'mailto:' + merchantStore.email" class="contact-link">
+                <i class="fa fa-envelope" aria-hidden="true"></i>
+                {{ merchantStore.email }}
+              </a>
+              <span *ngIf="!merchantStore.email">N/A</span>
+            </span>
+          </div>
+          <div class="info-item">
+            <label>Phone:</label>
+            <span class="value">
+              <a *ngIf="merchantStore.phone" [href]="'tel:' + merchantStore.phone" class="contact-link">
+                <i class="fa fa-phone" aria-hidden="true"></i>
+                {{ merchantStore.phone }}
+              </a>
+              <span *ngIf="!merchantStore.phone">N/A</span>
+            </span>
+          </div>
+          <div class="info-item">
+            <label>Fax:</label>
+            <span class="value">
+              <a *ngIf="merchantStore.fax" [href]="'tel:' + merchantStore.fax" class="contact-link">
+                <i class="fa fa-fax" aria-hidden="true"></i>
+                {{ merchantStore.fax }}
+              </a>
+              <span *ngIf="!merchantStore.fax">N/A</span>
+            </span>
+          </div>
+          <div class="info-item" *ngIf="merchantStore.website">
+            <label>Website:</label>
+            <span class="value">
+              <a [href]="merchantStore.website" target="_blank" class="contact-link">
+                <i class="fa fa-globe" aria-hidden="true"></i>
+                {{ merchantStore.website }}
+              </a>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Address Information Section -->
+    <div class="info-card">
+      <div class="card-header">
+        <h3>
+          <i class="fa fa-map-marker" aria-hidden="true"></i>
+          Address Information
+        </h3>
+      </div>
+      <div class="card-content">
+        <div class="info-grid">
+          <div class="info-item full-width">
+            <label>Address Line 1:</label>
+            <span class="value">{{ merchantStore.address1 || 'N/A' }}</span>
+          </div>
+          <div class="info-item full-width" *ngIf="merchantStore.address2">
+            <label>Address Line 2:</label>
+            <span class="value">{{ merchantStore.address2 }}</span>
+          </div>
+          <div class="info-item">
+            <label>City:</label>
+            <span class="value">{{ merchantStore.city || 'N/A' }}</span>
+          </div>
+          <div class="info-item">
+            <label>ZIP Code:</label>
+            <span class="value">{{ merchantStore.zip || 'N/A' }}</span>
+          </div>
+          <div class="info-item">
+            <label>Latitude:</label>
+            <span class="value">{{ merchantStore.latitude || 'N/A' }}</span>
+          </div>
+          <div class="info-item">
+            <label>Longitude:</label>
+            <span class="value">{{ merchantStore.longitude || 'N/A' }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Technical Information Section -->
+    <div class="info-card" *ngIf="merchantStore.reversalTimeout || merchantStore.additionalAttribute">
+      <div class="card-header">
+        <h3>
+          <i class="fa fa-cogs" aria-hidden="true"></i>
+          Technical Information
+        </h3>
+      </div>
+      <div class="card-content">
+        <div class="info-grid">
+          <div class="info-item" *ngIf="merchantStore.reversalTimeout">
+            <label>Reversal Timeout:</label>
+            <span class="value">{{ merchantStore.reversalTimeout }} seconds</span>
+          </div>
+          <div class="info-item full-width" *ngIf="merchantStore.additionalAttribute">
+            <label>Additional Attributes:</label>
+            <span class="value code">{{ merchantStore.additionalAttribute }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

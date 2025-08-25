@@ -1,0 +1,136 @@
+$padding: 1rem 1.5rem
+$dropdown-width: 10rem
+
+// SASS for parent container
+.main-container
+    font-weight: bold
+
+.header
+    display: flex
+    justify-content: start
+    padding: $padding
+    background-color: $white
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1)
+
+    .name-box
+        display: flex
+        align-items: center
+        gap: 1rem
+
+        i
+            font-size: 1.2rem  
+            margin-top: -0.45rem
+
+        h4
+            font-size: 1.5rem
+            font-weight: bold
+
+    .search-box
+        display: flex
+        margin-left:8rem
+        
+        #reset-button
+            background: $primary-color
+            border: none
+            color: $white
+            padding: 0rem 1.5rem
+        
+
+.section
+    display: flex
+    justify-content: space-between
+    align-items: center
+    padding: $padding
+
+    #dropdownMenuButton
+        width: $dropdown-width
+
+    button
+        a
+            color: $white
+            text-decoration: none
+
+.main-content
+    padding: $padding
+
+    .table-container
+        table
+            thead
+                background-color: $primary-color
+                th
+                    color: $white
+
+            tbody
+               tr
+                    td
+                        background-color: $white
+    
+
+//SASS for child component
+.back-button
+    a
+        color: $primary-color
+        text-decoration: none
+        user-select: none
+
+.form-container
+    font-weight: bold
+    width: 50%
+
+    #asterisk
+        color: $red
+
+    .button-group
+        display: flex
+        justify-content: space-between
+        width: 100%
+
+// SASS for page section
+.page-section
+  display: flex
+  align-items: center
+  justify-content: space-between
+  font-weight: bold
+
+.page-step
+  h6
+    display: flex
+    align-items: center
+
+.page-line
+  flex: 1
+  height: 2px
+  background-color: #ccc
+  margin: 0 0.1rem
+
+.step
+  display: inline-block
+  width: 2rem
+  height: 2rem
+  line-height: 2rem
+  border-radius: 50%
+  text-align: center
+  color: white
+  margin-right: 0.5rem
+  background-color: #ccc
+
+.step-one.active
+  background-color: #180b86 
+
+.step-two.active
+  background-color: #5c5963 
+
+// SASS for search box and action buttons
+.search-box
+    width: 35%
+
+#actions
+    display: flex
+    flex-direction: column
+    cursor: pointer
+
+    #edit
+        color: $primary-color
+    
+    #delete
+        color: $red

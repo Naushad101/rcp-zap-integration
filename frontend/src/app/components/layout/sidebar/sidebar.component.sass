@@ -1,0 +1,57 @@
+@import '../../../../styles.sass'
+    
+.sidebar
+    width: 13rem
+    height: 100%
+    background-color:$primary-color
+    display: flex
+    flex-direction: column
+    color: $white
+    font-size: 1rem
+
+.sidebar-header
+    padding: 1rem 0rem
+    background: #dddddd
+    color: $black
+    text-align: center
+    font-size: 1.2rem
+
+.collapse-menu
+    li
+        padding: 0.5rem 0rem
+
+
+.sidebar-nav
+  .btn-link
+    width: 100%
+    color: $white
+    text-decoration: none
+    border-top: solid 0.1px $white
+    border-bottom: solid 0.1px $white
+    border-radius: 0
+    font-weight: bold
+    padding: 0.5rem 1rem
+
+  a  
+    color: $white
+    text-decoration: none
+    user-select: none
+
+    &:hover
+    &:focus
+    &:active
+    &[aria-expanded="true"]
+      text-decoration: underline
+
+  button[aria-expanded="true"] 
+    background-color: #fdfcfc
+    color: $black
+    border: none
+    outline: none
+      
+.sidebar-nav button:focus 
+    outline: none
+    box-shadow: none
+    
+i
+    margin-right: 0.5rem

@@ -1,0 +1,83 @@
+<div class="main-container">
+
+    <div class="header">
+      <div class="name-box">
+        <i class="fa fa-bars" aria-hidden="true"></i>
+        <h4>Country State</h4>
+      </div>
+      <div class="search-box">
+        <input type="text" class="form-control" placeholder="Type to Filter by State Name" [(ngModel)]="filterValue" (keyup.enter)="onEnterKey($event)">
+        <button id="reset-button" (click)="onReset()">Reset</button>
+      </div>
+    </div>
+  
+    <div class="section">
+      <div class="dropdown-filters">
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle bg-white text-dark" type="button" id="dropdownMenuButton"
+              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              {{ selectedStatusLabel }}
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <a class="dropdown-item" href="#" (click)="filterByStatus($event, 'all')">All Status</a>
+              <a class="dropdown-item" href="#" (click)="filterByStatus($event, '1')">Active</a>
+              <a class="dropdown-item" href="#" (click)="filterByStatus($event, '0')">Inactive</a>
+            </div>
+        </div>
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle bg-white text-dark" type="button" id="countryDropdown"
+              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              {{ selectedCountryLabel }}
+            </button>
+            <div class="dropdown-menu" aria-labelledby="countryDropdown">
+              <a class="dropdown-item" href="#" (click)="filterByCountry($event, 'all')">All Countries</a>
+              <a class="dropdown-item" *ngFor="let country of activeCountries" href="#" 
+                 (click)="filterByCountry($event, country.countryName)">
+                {{ country.countryName }}
+              </a>
+            </div>
+        </div>
+      </div>
+  
+      <div class="create-button">
+        <button class="btn btn-primary" type="submit">
+          <a routerLink="/country-state/create" (click)="createCountryState()">
+            <i class="fa fa-plus-circle" aria-hidden="true"></i>
+            Create Country State
+          </a>
+        </button>
+      </div>
+    </div>
+  
+    <div class="main-content">
+      <div class="table-container">
+        <table class="table table-striped">
+          <caption class="sr-only">List of country states with their details including state name, status, code, and associated country</caption>
+          <thead>
+            <tr>
+              <th>State Name</th>
+              <th>Status</th>
+              <th>Code</th>
+              <th>Country</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let countryState of filteredCountryStates; let i = index">
+              <td>{{ countryState.stateName }}</td>
+              <td>
+                <div class="custom-control custom-switch">
+                  <input type="checkbox" class="custom-control-input" [id]="'status' + i"
+                         [checked]="countryState.active === '1'" (change)="updateStatus(countryState)">
+                  <label class="custom-control-label" [for]="'status' + i"></label>
+                </div>
+              </td>
+              <td>{{ countryState.code }}</td>
+              <td>{{ countryState.country!.countryName }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  
+  </div>
+  

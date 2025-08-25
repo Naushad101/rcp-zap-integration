@@ -1,0 +1,82 @@
+<div class="main-container">
+
+  <div class="header">
+    <div class="name-box">
+      <i class="fa fa-bars" aria-hidden="true"></i>
+      <h4>Acquirers</h4>
+    </div>
+    <div class="search-box">
+      <input type="text" class="form-control" placeholder="Type to Filter by Acquirer" [(ngModel)]="filterValue"
+        (keyup.enter)="onEnterKey($event)">
+      <button id="reset-button" (click)="onReset()">Reset</button>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="create-button">
+      <button class="btn btn-primary" (click)="navigateToCreateAcquirer()">
+        <i class="fa fa-plus-circle" aria-hidden="true"></i>
+        Create Acquirer
+      </button>
+    </div>
+  </div>
+
+  <div class="main-content">
+    <div class="table-container">
+      <table class="table table-striped">
+        <caption class="sr-only">List of acquirers with their details including name, code, status, validation settings, and country</caption>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Acquirer Code</th>
+            <th>Status</th>
+            <th>Onus Validate</th>
+            <th>Refund Offline</th>
+            <th>Country</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let acquirer of filteredAcquirers; let i = index">
+            <td>{{ acquirer.name }}</td>
+            <td>{{ acquirer.code }}</td>
+            
+            <td>
+              <div class="custom-control custom-switch">
+                <input type="checkbox" class="custom-control-input" [id]="'activeStatus' + i"
+                  [checked]="acquirer.active === '1'" (change)="updateActiveStatus($event, acquirer)">
+                <label class="custom-control-label" [for]="'activeStatus' + i"></label>
+              </div>
+            </td>
+
+            <td>
+              <div class="custom-control custom-switch">
+                <input type="checkbox" class="custom-control-input" [id]="'onusValidateStatus' + i"
+                  [checked]="acquirer.onusValidate === '1'" (change)="updateOnusValidateStatus($event, acquirer)">
+                <label class="custom-control-label" [for]="'onusValidateStatus' + i"></label>
+              </div>
+            </td>
+
+            <td>
+              <div class="custom-control custom-switch">
+                <input type="checkbox" class="custom-control-input" [id]="'refundOfflineStatus' + i"
+                  [checked]="acquirer.refundOffline === '1'" (change)="updateRefundOfflineStatus($event, acquirer)">
+                <label class="custom-control-label" [for]="'refundOfflineStatus' + i"></label>
+              </div>
+            </td>
+
+            <td>
+              {{acquirer.country?.countryName}}
+            </td>
+            <td id="actions">
+              <a id="edit" (click)="navigateToEditAcquirer(acquirer.id!)">Edit</a>
+              <a id="delete" (click)="deleteAcquirer(acquirer.id!, acquirer.name)">Delete</a>
+              <a id="view-details" (click)="navigateToViewAcquirer(acquirer.id!)">View Details</a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,64 @@
+<div class="main-container">
+    <div class="header">
+      <div class="name-box">
+        <i class="fa fa-bars" aria-hidden="true"></i>
+        <h4>Terminal Model</h4>
+      </div>
+      <div class="search-box">
+        <input type="text" class="form-control" placeholder="Type to Search by Name" [(ngModel)]="searchQuery"
+          (keyup.enter)="onSearch()" />
+        <button id="reset-button" (click)="onReset()">Reset</button>
+      </div>
+    </div>
+  
+    <div class="section">
+      <div class="create-button">
+        <button class="btn btn-primary" (click)="onCreate()">
+          <i class="fa fa-plus-circle" aria-hidden="true"></i>
+          Create Terminal Model
+        </button>
+      </div>
+    </div>
+  
+    <div class="main-content">
+      <div class="table-container">
+        <table class="table table-striped">
+          <caption class="sr-only">List of terminal models with their details including name, vendor, type, siting and action</caption>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Vendor</th>
+              <th>Type</th>
+              <th>Siting</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Show rows only if filteredModels has data -->
+            <ng-container *ngIf="filteredModels.length > 0">
+              <tr *ngFor="let model of filteredModels; let i = index">
+                <td>{{ model.modelname }}</td>
+                <td>{{ model.vendor || '-' }}</td>
+                <td>{{ model.type || '-' }}</td>
+                <td>{{ model.siting || '-' }}</td>
+                <td id="actions">
+                  <!-- <a id="edit" (click)="navigateToEditModel(model.id!)">Edit</a>
+                  <a id="delete" (click)="deleteModel(model.id!, model.name)">Delete</a> -->
+                  <!-- <a id="view-details" (click)="navigateToViewModel(model.id!)">View Details</a> -->
+                </td>
+              </tr>
+            </ng-container>
+  
+            <!-- Show message if no data -->
+            <tr *ngIf="filteredModels.length === 0">
+              <td colspan="5" class="text-center">No data to display</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+  
+      <div class="table-footer">
+        <span>{{ filteredModels.length }} total</span>
+      </div>
+    </div>
+  </div>

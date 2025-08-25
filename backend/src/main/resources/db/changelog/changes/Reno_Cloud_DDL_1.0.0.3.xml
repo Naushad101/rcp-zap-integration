@@ -1,0 +1,391 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="7" author="Vaibhav" failOnError="false">
+
+        <createTable tableName="terminal">
+            <column name="id" type="INT" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="device_id" type="INT" />
+            <column name="macaddress" type="VARCHAR(50)"/>
+            <column name="eppserialnumber" type="VARCHAR(50)"/>
+            <column name="rklFlag" type="TINYINT"/>
+            <column name="institutionGroup" type="INT"/>
+            <column name="description" type="VARCHAR(50)"/>
+            <column name="terminalModel" type="INT"/>
+            <column name="address_detail" type="INT"/>
+            <column name="atm_option" type="INT"/>
+            <column name="terminalid" type="VARCHAR(50)"/>
+            <column name="inheritaddressfromlocation" type="smallint"/>
+            <column name="branchsortcode" type="VARCHAR(150)"/>
+            <column name="deleted" type="CHAR(1)"/>
+            <column name="created_on" type="datetime"/>
+            <column name="created_by" type="INT"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="updated_by" type="INT"/>
+        </createTable>
+
+        <createTable tableName="terminal_address_detail">
+            <column name="id" type="INT" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="address_1" type="VARCHAR(150)"/>
+            <column name="address_2" type="VARCHAR(150)"/>
+            <column name="city" type="VARCHAR(50)"/>
+            <column name="postal_code" type="VARCHAR(50)"/>
+            <column name="country" type="INT"/>
+            <column name="phone" type="VARCHAR(50)"/>
+            <column name="official_email" type="VARCHAR(50)"/>
+            <column name="latitude" type="DOUBLE"/>
+            <column name="longitude" type="DOUBLE"/>
+            <column name="created_on" type="datetime"/>
+            <column name="created_by" type="INT"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="updated_by" type="INT"/>
+        </createTable>
+
+        <createTable tableName="terminal_option">
+            <column name="id" type="INT" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="currency_inherit" type="INT"/>
+            <column name="currency" type="INT"/>
+            <column name="dcc_flag" type="TINYINT"/>
+            <column name="dcc_inherit" type="INT"/>
+        </createTable>
+
+        <createTable tableName="atm_option">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints primaryKey="true" />
+            </column>
+            <column name="merchant_id" type="INT"/>
+            <column name="currency" type="VARCHAR(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="dccflag" type="TINYINT(1)">
+            </column>
+            <column name="masterkeyexpirytimeunit" type="VARCHAR(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="pinkeyexpirytimeunit" type="VARCHAR(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="masterkeyexpiryvalue" type="INT">
+                <constraints nullable="true" />
+            </column>
+            <column name="pinkeyexpiryperiod" type="INT">
+                <constraints nullable="true" />
+            </column>
+        </createTable>
+
+        <createTable tableName="terminal_type">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="type" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="smallint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="deleted" type="smallint">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="created_on" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="smallint">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="updated_on" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_by" type="smallint"/>
+        </createTable>
+        <addForeignKeyConstraint baseColumnNames="created_by" baseTableName="terminal_type" constraintName="fk_terminal_type_cby" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="system_user" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="updated_by" baseTableName="terminal_type" constraintName="fk_terminal_type_uby" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="system_user" validate="true"/>
+
+        <createTable tableName="terminal_vendor">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="smallint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="deleted" type="smallint">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="created_on" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="smallint">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="updated_on" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_by" type="smallint"/>
+        </createTable>
+        <addForeignKeyConstraint baseColumnNames="created_by" baseTableName="terminal_vendor" constraintName="fk_terminal_vendor_cby" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="system_user" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="updated_by" baseTableName="terminal_vendor" constraintName="fk_terminal_vendor_uby" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="system_user" validate="true"/>
+
+        <createTable tableName="terminal_siting">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="smallint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="deleted" type="smallint">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="created_on" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="smallint">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="updated_on" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_by" type="smallint"/>
+        </createTable>
+        <addForeignKeyConstraint baseColumnNames="created_by" baseTableName="terminal_siting" constraintName="fk_terminal_siting_cby" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="system_user" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="updated_by" baseTableName="terminal_siting" constraintName="fk_terminal_siting_uby" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="system_user" validate="true"/>
+
+
+        <createTable tableName="terminal_model">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="modelname" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="vendor" type="INT">
+                <constraints nullable="true"/>
+            </column>
+            <column name="type" type="INT">
+                <constraints nullable="true"/>
+            </column>
+            <column name="siting" type="INT">
+                <constraints nullable="true"/>
+            </column>
+            <column name="status" type="smallint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="deleted" type="smallint">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="created_on" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="smallint">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="updated_on" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_by" type="smallint"/>
+        </createTable>
+        <addForeignKeyConstraint baseColumnNames="created_by" baseTableName="terminal_model" constraintName="fk_terminal_model_cby" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="system_user" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="updated_by" baseTableName="terminal_model" constraintName="fk_terminal_model_uby" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="system_user" validate="true"/>
+
+        <createTable tableName="lookup_type">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="VARCHAR(50)" valueComputed="upper(name)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="description" type="VARCHAR(100)"/>
+            <column name="modifiable" type="CHAR(1)" defaultValue="0">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="created_on" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="smallint">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="updated_on" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_by" type="smallint"/>
+        </createTable>
+        <addForeignKeyConstraint baseColumnNames="created_by" baseTableName="lookup_type" constraintName="fk_lookup_type_cby" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="system_user" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="updated_by" baseTableName="lookup_type" constraintName="fk_lookup_type_uby" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="system_user" validate="true"/>
+
+
+        <createTable tableName="lookup_value">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="lookup_type" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="value" type="VARCHAR(100)" valueComputed="upper(value)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="VARCHAR(100)"/>
+            <column name="modifiable" type="CHAR(1)" defaultValue="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="active" type="CHAR(1)" defaultValue="1">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="created_on" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="smallint">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="updated_on" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_by" type="smallint"/>
+        </createTable>
+        <addUniqueConstraint columnNames="lookup_type, value" constraintName="uk_lookup_value_entity" tableName="lookup_value"/>
+        <addForeignKeyConstraint baseColumnNames="lookup_type" baseTableName="lookup_value" constraintName="fk_lookup_value_ltype" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="lookup_type" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="created_by" baseTableName="lookup_value" constraintName="fk_lookup_value_cby" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="system_user" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="updated_by" baseTableName="lookup_value" constraintName="fk_lookup_value_uby" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="system_user" validate="true"/>
+
+        <createTable tableName="bin_master">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="file_name" type="VARCHAR(50)"/>
+            <column name="uploaded_on" type="datetime" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="activate_on" type="datetime" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="active" type="CHAR(1)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="created_on" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="smallint">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="updated_on" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_by" type="smallint"/>
+        </createTable>
+        <addForeignKeyConstraint baseColumnNames="created_by" baseTableName="bin_master" constraintName="fk_bin_master_cby" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="system_user" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="updated_by" baseTableName="bin_master" constraintName="fk_bin_master_uby" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="system_user" validate="true"/>
+        <createIndex tableName="bin_master" indexName="uk_bin_master_filename" unique="true">
+            <column name="file_name"/>
+        </createIndex>
+
+
+        <createTable tableName="bin_table">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="bin_master_id" type="INT"/>
+            <column name="brand" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="card_product" type="VARCHAR(100)"/>
+            <column name="bin" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="bin_attributes" type="json">
+                <constraints nullable="false"/>
+            </column>
+            <column name="onus" type="CHAR(1)" defaultValue="N">
+                <constraints nullable="false"/>
+            </column>
+            <column name="mod10" type="CHAR(1)" defaultValue="N">
+                <constraints nullable="false"/>
+            </column>
+            <column name="international" type="CHAR(1)" defaultValue="N">
+                <constraints nullable="false"/>
+            </column>
+            <column name="product_type" type="CHAR(1)" defaultValue="C">
+                <constraints nullable="false"/>
+            </column>
+            <column name="length" type="VARCHAR(30)"/>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="created_on" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="smallint">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="updated_on" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_by" type="smallint"/>
+        </createTable>
+        <addForeignKeyConstraint baseColumnNames="created_by" baseTableName="bin_table" constraintName="fk_bin_table_cby" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="system_user" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="updated_by" baseTableName="bin_table" constraintName="fk_bin_table_uby" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="system_user" validate="true"/>
+
+        <createTable tableName="region">
+            <column name="id" type="INT" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="VARCHAR(50)"/>
+            <column name="locked" type="CHAR(1)"/>
+            <column name="deleted" type="CHAR(1)"/>
+            <column name="created_on" type="datetime"/>
+            <column name="created_by" type="INT"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="updated_by" type="INT"/>
+        </createTable>
+
+        <createTable tableName="location_atm">
+            <column name="id" type="INT" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="region" type="INT"/>
+            <column name="location_id" type="INT"/>
+            <column name="sublocation" type="TINYINT"/>
+            <column name="sublocationid" type="INT"/>
+            <column name="locked" type="CHAR(1)"/>
+            <column name="deleted" type="CHAR(1)"/>
+            <column name="created_on" type="datetime"/>
+            <column name="created_by" type="INT"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="updated_by" type="INT"/>
+        </createTable>
+
+        <createTable tableName="tag">
+            <column name="id" type="INT" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="tagname" type="VARCHAR(150)"/>
+            <column name="deleted" type="smallint"/>
+            <column name="created_on" type="datetime"/>
+            <column name="created_by" type="INT"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="updated_by" type="INT"/>
+        </createTable>
+
+        <createTable tableName="terminaltag">
+            <column name="id" type="INT" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="terminalid" type="INT"/>
+            <column name="tagid" type="INT"/>
+            <column name="tagvalue" type="VARCHAR(150)"/>
+            <column name="deleted" type="smallint"/>
+            <column name="tagname" type="VARCHAR(150)"/>
+            <column name="created_on" type="datetime"/>
+            <column name="created_by" type="INT"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="updated_by" type="INT"/>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

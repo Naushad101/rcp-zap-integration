@@ -1,0 +1,66 @@
+<div class="main-container">
+    <div class="header">
+      <div class="name-box">
+        <i class="fa fa-bars" aria-hidden="true"></i>
+        <h4>Terminal Siting</h4>
+      </div>
+      <div class="search-box">
+        <input type="text" class="form-control" placeholder="Type to Search by Name" [(ngModel)]="searchQuery"
+          (keyup.enter)="onSearch()" />
+        <button id="reset-button" (click)="onReset()">Reset</button>
+      </div>
+    </div>
+  
+    <div class="section">
+      <div class="create-button">
+        <button class="btn btn-primary" (click)="onCreate()">
+          <i class="fa fa-plus-circle" aria-hidden="true"></i>
+          Create Terminal Siting
+        </button>
+      </div>
+    </div>
+  
+    <div class="main-content">
+      <div class="table-container">
+        <table class="table table-striped">
+          <caption class="sr-only">List of terminal sitings with their details including name and status</caption>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Show rows only if filteredSitings has data -->
+            <ng-container *ngIf="filteredSitings.length > 0">
+              <tr *ngFor="let siting of filteredSitings; let i = index">
+                <td>{{ siting.name }}</td>
+                <td>
+                  <div class="custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input" [id]="'activeStatus' + i"
+                      [checked]="siting.status === 1" />
+                    <label class="custom-control-label" [for]="'activeStatus' + i"></label>
+                  </div>
+                </td>
+                <td id="actions">
+                  <!-- <a id="edit" (click)="navigateToEditSiting(siting.id!)">Edit</a>
+                  <a id="delete" (click)="deleteSiting(siting.id!, siting.name)">Delete</a> -->
+                  <!-- <a id="view-details" (click)="navigateToViewSiting(siting.id!)">View Details</a> -->
+                </td>
+              </tr>
+            </ng-container>
+  
+            <!-- Show message if no data -->
+            <tr *ngIf="filteredSitings.length === 0">
+              <td colspan="3" class="text-center">No data to display</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+  
+      <div class="table-footer">
+        <span>{{ filteredSitings.length }} total</span>
+      </div>
+    </div>
+  </div>

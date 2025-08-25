@@ -1,0 +1,142 @@
+<div class="main-container">
+
+  <div class="header">
+    <div class="name-box">
+      <i class="fa fa-bars" aria-hidden="true"></i>
+      <h4>{{ pageTitle }} Acquirer</h4>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="back-button">
+      <a routerLink="/layout/acquirer">
+        <i class="fa fa-arrow-circle-o-left" aria-hidden="true"></i>
+        Back
+      </a>
+    </div>
+  </div>
+
+  <div class="main-content">
+    <div class="form-container">
+      <form (ngSubmit)="onSubmit()" #acquirerForm="ngForm" class="form-box">
+
+        <div class="form-row row">
+          <div class="col-md-6 mr-4">
+
+            <div class="form-group">
+              <label for="acquirerName">Acquirer Name<i id="asterisk">*</i></label>
+              <input type="text" id="acquirerName" name="acquirerName" class="form-control" required
+                [(ngModel)]="acquirer.name" placeholder="Name" maxlength="50">
+            </div>
+
+            <div class="form-group">
+              <label for="acquirerCode">Acquirer Code<i id="asterisk">*</i></label>
+              <input type="text" id="acquirerCode" name="acquirerCode" class="form-control" required
+                [(ngModel)]="acquirer.code" placeholder="Acquirer Code" maxlength="25">
+            </div>
+
+            <div class="form-group">
+              <label for="description">Description</label>
+              <input type="text" id="description" name="description" class="form-control"
+                [(ngModel)]="acquirer.description" placeholder="Description" maxlength="100">
+            </div>
+
+            <div class="form-group">
+              <label for="countryId">Country<i id="asterisk">*</i></label>
+              <select class="form-control" id="countryId" name="countryId" required [(ngModel)]="acquirer.countryId">
+                <option value="">Please Select Country</option>
+                <option *ngFor="let country of activeCountries" [value]="country.id">
+                  {{ country.countryName }}
+                </option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="refundOffline">Refund Offline</label>
+              <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="refundOffline" name="refundOffline"
+                  [checked]="acquirer.refundOffline === '1'" (change)="onRefundOfflineToggle($event)" />
+                <label class="form-check-label" for="refundOffline">ENABLED</label>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="status">Status</label>
+              <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="status" name="status"
+                  [checked]="acquirer.active === '1'" (change)="onStatusToggle($event)" />
+                <label class="form-check-label" for="status">ENABLED</label>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="onusValidate">Onus Validate</label>
+              <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="onusValidate" name="onusValidate"
+                  [checked]="acquirer.onusValidate === '1'" (change)="onOnusValidateToggle($event)" />
+                <label class="form-check-label" for="onusValidate">ENABLED</label>
+              </div>
+            </div>
+
+
+            <div class="form-row button-group">
+              <button type="button" class="btn btn-secondary mr-2" (click)="onCancel()">Cancel</button>
+              <button type="submit" class="btn btn-primary">
+                {{ isEditMode ? 'Update' : 'Create' }}
+              </button>
+            </div>
+
+          </div>
+
+          <div class="col-md-5">
+            <h6 id="message-name">Message Protocol Routing Parameters</h6>
+          
+            <div class="form-group">
+              <label for="posConditionCodeSms">POS Condition Code</label>
+              <div class="mb-2">
+                <label for="posConditionCodeSms">SMS</label>
+                <input type="text" id="posConditionCodeSms" class="form-control" placeholder="SMS"
+                  name="posConditionCodeSms" [(ngModel)]="acquirer.posSms" maxlength="255">
+              </div>
+              <div>
+                <label for="posConditionCodeDms">DMS</label>
+                <input type="text" id="posConditionCodeDms" class="form-control" placeholder="DMS"
+                  name="posConditionCodeDms" [(ngModel)]="acquirer.posDms" maxlength="255">
+              </div>
+            </div>
+          
+            <div class="form-group">
+              <label for="transactionTypeSms">Transaction Type</label>
+              <div class="mb-2">
+                <label for="transactionTypeSms">SMS</label>
+                <input type="text" id="transactionTypeSms" class="form-control" placeholder="SMS"
+                  name="transactionTypeSms" [(ngModel)]="acquirer.txtnypeSms" maxlength="255">
+              </div>
+              <div>
+                <label for="transactionTypeDms">DMS</label>
+                <input type="text" id="transactionTypeDms" class="form-control" placeholder="DMS"
+                  name="transactionTypeDms" [(ngModel)]="acquirer.txtnypeDms" maxlength="255">
+              </div>
+            </div>
+          
+            <div class="form-group">
+              <label for="accountTypeSms">Account Type</label>
+              <div class="mb-2">
+                <label for="accountTypeSms">SMS</label>
+                <input type="text" id="accountTypeSms" class="form-control" placeholder="SMS"
+                  name="accountTypeSms" [(ngModel)]="acquirer.accounttypeSms" maxlength="255">
+              </div>
+              <div>
+                <label for="accountTypeDms">DMS</label>
+                <input type="text" id="accountTypeDms" class="form-control" placeholder="DMS"
+                  name="accountTypeDms" [(ngModel)]="acquirer.accounttypeDms" maxlength="255">
+              </div>
+            </div>
+          </div>          
+
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>

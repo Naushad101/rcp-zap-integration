@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="1" author="Vaibhav" failOnError="false">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="acquirer_mapping"/>
+            </not>
+        </preConditions>
+        <createTable tableName="acquirer_mapping">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="device_id" type="INT"/>
+            <column name="location_id" type="INT"/>
+            <column name="merchant_id" type="INT"/>
+            <column name="acquirer_id" type="INT"/>
+            <column name="payment_method" type="INT"/>
+            <column name="active" type="CHAR(1)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="deleted" type="CHAR(1)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="created_on" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="smallint">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="updated_on" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_by" type="smallint"/>
+        </createTable>
+        <addUniqueConstraint
+            columnNames="device_id, location_id, merchant_id, acquirer_id"
+            constraintName="uk_acquirer_mapping_entity"
+            tableName="acquirer_mapping"/>
+        <addForeignKeyConstraint
+            baseColumnNames="updated_by"
+            baseTableName="acquirer_mapping"
+            constraintName="fk_acquirer_mapping_uby"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="NO ACTION"
+            onUpdate="NO ACTION"
+            referencedColumnNames="id"
+            referencedTableName="system_user"
+            validate="true"/>
+    </changeSet>
+
+    <changeSet id="2" author="Vaibhav" failOnError="false">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="bin_table"/>
+            </not>
+        </preConditions>
+        <createTable tableName="bin_table">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="bin_master_id" type="INT"/>
+            <column name="brand" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="card_product" type="VARCHAR(100)"/>
+            <column name="bin" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="bin_attributes" type="json">
+                <constraints nullable="false"/>
+            </column>
+            <column name="onus" type="CHAR(1)" defaultValue="N">
+                <constraints nullable="false"/>
+            </column>
+            <column name="mod10" type="CHAR(1)" defaultValue="N">
+                <constraints nullable="false"/>
+            </column>
+            <column name="international" type="CHAR(1)" defaultValue="N">
+                <constraints nullable="false"/>
+            </column>
+            <column name="product_type" type="CHAR(1)" defaultValue="C">
+                <constraints nullable="false"/>
+            </column>
+            <column name="length" type="VARCHAR(30)"/>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="created_on" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="smallint">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="updated_on" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_by" type="smallint"/>
+        </createTable>
+        <addForeignKeyConstraint baseColumnNames="created_by" baseTableName="bin_table" constraintName="fk_bin_table_cby" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="system_user" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="updated_by" baseTableName="bin_table" constraintName="fk_bin_table_uby" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="system_user" validate="true"/>
+    </changeSet>
+
+    <changeSet id="3" author="Vaibhav" failOnError="false">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="checker"/>
+            </not>
+        </preConditions>
+        <createTable tableName="checker">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="comment" type="VARCHAR(50)"/>
+            <column name="data" type="BLOB"/>
+            <column name="status" type="VARCHAR(50)"/>
+            <column name="entity_type" type="VARCHAR(45)"/>
+            <column name="entity_id" type="INT"/>
+            <column name="json" type="BLOB"/>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="created_on" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="smallint">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="updated_on" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_by" type="smallint"/>
+        </createTable>
+        <addForeignKeyConstraint
+            baseColumnNames="created_by"
+            baseTableName="checker"
+            constraintName="fk_checker_cby"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="NO ACTION"
+            onUpdate="NO ACTION"
+            referencedColumnNames="id"
+            referencedTableName="system_user"
+            validate="true"/>
+        <addForeignKeyConstraint
+            baseColumnNames="updated_by"
+            baseTableName="checker"
+            constraintName="fk_checker_uby"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="NO ACTION"
+            onUpdate="NO ACTION"
+            referencedColumnNames="id"
+            referencedTableName="system_user"
+            validate="true"/>
+    </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,33 @@
+export interface MerchantStore {
+  id?: number;
+  code: string;
+  name: string;
+  description: string;
+  activateOn: string;
+  expiryOn: string;
+  deleted: string;
+  locked: string;
+  posSafetyFlag: string;
+  reversalTimeout: string;
+  additionalAttribute:string | null;
+  latitude: number;
+  longitude: number;
+  locationDetailId?: number;
+  address1: string;
+  address2: string;
+  city: string;
+  zip: string;
+  phone: string;
+  fax: string;
+  website: string;
+  email: string;
+  region: number;
+  locationId: string;
+  atmDeleted: string;
+  atmLocked: string;
+  sublocation: boolean;
+  merchantChain: string;
+  merchantId: number;
+  country: string;
+  state: string;
+}

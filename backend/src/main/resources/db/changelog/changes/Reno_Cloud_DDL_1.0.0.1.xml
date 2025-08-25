@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="3" author="Vaibhav">
+
+        <createTable tableName="institution">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="code" type="VARCHAR(15)">
+                <constraints nullable="false" unique="true" />
+            </column>
+            <column name="name" type="VARCHAR(50)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="description" type="VARCHAR(512)"/>
+            <column name="activate_on" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="expiry_on" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="locked" type="CHAR(1)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="deleted" type="CHAR(1)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="VARCHAR(10)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="created_on" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="smallint">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="updated_on" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_by" type="smallint"/>
+        </createTable>
+        <addForeignKeyConstraint
+            baseColumnNames="created_by"
+            baseTableName="institution"
+            constraintName="fk_institution_cby"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="NO ACTION"
+            onUpdate="NO ACTION"
+            referencedColumnNames="id"
+            referencedTableName="system_user"
+            validate="true"/>
+        <addForeignKeyConstraint
+            baseColumnNames="updated_by"
+            baseTableName="institution"
+            constraintName="fk_institution_uby"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="NO ACTION"
+            onUpdate="NO ACTION"
+            referencedColumnNames="id"
+            referencedTableName="system_user"
+            validate="true"/>
+
+        <createTable tableName="institution_detail">
+            <column name="id" type="INT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="address_1" type="VARCHAR(256)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="address_2" type="VARCHAR(256)"/>
+            <column name="city" type="VARCHAR(50)"/>
+            <column name="state" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="postal_code" type="VARCHAR(15)"/>
+            <column name="country" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="phone" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="fax" type="VARCHAR(20)"/>
+            <column name="website" type="VARCHAR(100)"/>
+            <column name="official_email" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="created_on" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="smallint">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="updated_on" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_by" type="smallint"/>
+        </createTable>
+        <addForeignKeyConstraint
+            baseColumnNames="created_by"
+            baseTableName="institution_detail"
+            constraintName="fk_institution_detail_cby"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="NO ACTION"
+            onUpdate="NO ACTION"
+            referencedColumnNames="id"
+            referencedTableName="system_user"
+            validate="true"/>
+        <addForeignKeyConstraint
+            baseColumnNames="updated_by"
+            baseTableName="institution_detail"
+            constraintName="fk_institution_detail_uby"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="NO ACTION"
+            onUpdate="NO ACTION"
+            referencedColumnNames="id"
+            referencedTableName="system_user"
+            validate="true"/>
+        <addForeignKeyConstraint
+            baseColumnNames="country"
+            baseTableName="institution_detail"
+            constraintName="fk_institution_detail_ctry"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="NO ACTION"
+            onUpdate="NO ACTION"
+            referencedColumnNames="id"
+            referencedTableName="country"
+            validate="true"/>
+        <addForeignKeyConstraint
+            baseColumnNames="state"
+            baseTableName="institution_detail"
+            constraintName="fk_institution_detail_state"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="NO ACTION"
+            onUpdate="NO ACTION"
+            referencedColumnNames="id"
+            referencedTableName="country_state"
+            validate="true"/>
+        <addForeignKeyConstraint
+            baseColumnNames="id"
+            baseTableName="institution_detail"
+            constraintName="fk_institution_detail_id"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="NO ACTION"
+            onUpdate="NO ACTION"
+            referencedColumnNames="id"
+            referencedTableName="institution"
+            validate="true"/>
+
+        <createTable tableName="merchant_category_code">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="code" type="VARCHAR(4)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="active" type="VARCHAR(1)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="VARCHAR(250)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="created_on" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="smallint">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="updated_on" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_by" type="smallint"/>
+        </createTable>
+        <addForeignKeyConstraint
+            baseColumnNames="created_by"
+            baseTableName="merchant_category_code"
+            constraintName="fk_merchant_category_code_cby"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="NO ACTION"
+            onUpdate="NO ACTION"
+            referencedColumnNames="id"
+            referencedTableName="system_user"
+            validate="true"/>
+        <addForeignKeyConstraint
+            baseColumnNames="updated_by"
+            baseTableName="merchant_category_code"
+            constraintName="fk_merchant_category_code_uby"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="NO ACTION"
+            onUpdate="NO ACTION"
+            referencedColumnNames="id"
+            referencedTableName="system_user"
+            validate="true"/>
+
+        <createTable tableName="merchant_institution">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="institution_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="acquirer_id" type="INT"/>
+            <column name="code" type="VARCHAR(15)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(50)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="description" type="VARCHAR(512)"/>
+            <column name="additional_attributes" type="json">
+                <constraints nullable="true"/>
+            </column>
+            <column name="activate_on" type="datetime">
+                <constraints nullable="false"/>
+            </column>   
+            <column name="expiry_on" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="locked" type="CHAR(1)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="deleted" type="CHAR(1)"/>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="created_on" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="smallint">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="updated_on" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_by" type="smallint"/>
+        </createTable>
+        <addForeignKeyConstraint
+            baseColumnNames="acquirer_id"
+            baseTableName="merchant_institution"
+            constraintName="fk_merchant_institution_aid"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="NO ACTION"
+            onUpdate="NO ACTION"
+            referencedColumnNames="id"
+            referencedTableName="acquirer_id_config"
+            validate="true"/>
+        <addForeignKeyConstraint
+            baseColumnNames="institution_id"
+            baseTableName="merchant_institution"
+            constraintName="fk_merchant_institution_instid"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="NO ACTION"
+            onUpdate="NO ACTION"
+            referencedColumnNames="id"
+            referencedTableName="institution"
+            validate="true"/>
+        <addForeignKeyConstraint
+            baseColumnNames="created_by"
+            baseTableName="merchant_institution"
+            constraintName="fk_merchant_institution_cby"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="NO ACTION"
+            onUpdate="NO ACTION"
+            referencedColumnNames="id"
+            referencedTableName="system_user"
+            validate="true"/>
+        <addForeignKeyConstraint
+            baseColumnNames="updated_by"
+            baseTableName="merchant_institution"
+            constraintName="fk_merchant_institution_uby"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="NO ACTION"
+            onUpdate="NO ACTION"
+            referencedColumnNames="id"
+            referencedTableName="system_user"
+            validate="true"/>
+        <createIndex tableName="merchant_institution" indexName="code" unique="true">
+            <column name="code"/>
+            <column name="institution_id"/>
+        </createIndex>
+
+        <createTable tableName="merchant_institution_detail">
+            <column name="id" type="INT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="address_1" type="VARCHAR(256)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="address_2" type="VARCHAR(256)"/>
+            <column name="city" type="VARCHAR(50)"/>
+            <column name="state" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="postal_code" type="VARCHAR(15)"/>
+            <column name="country" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="phone" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="fax" type="VARCHAR(20)"/>
+            <column name="website" type="VARCHAR(100)"/>
+            <column name="official_email" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="created_on" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="smallint">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="updated_on" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_by" type="smallint"/>
+        </createTable>
+        <addForeignKeyConstraint
+            baseColumnNames="created_by"
+            baseTableName="merchant_institution_detail"
+            constraintName="fk_merchant_institution_detail_cby"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="NO ACTION"
+            onUpdate="NO ACTION"
+            referencedColumnNames="id"
+            referencedTableName="system_user"
+            validate="true"/>
+        <addForeignKeyConstraint
+            baseColumnNames="updated_by"
+            baseTableName="merchant_institution_detail"
+            constraintName="fk_merchant_institution_detail_uby"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="NO ACTION"
+            onUpdate="NO ACTION"
+            referencedColumnNames="id"
+            referencedTableName="system_user"
+            validate="true"/>
+        <addForeignKeyConstraint
+            baseColumnNames="country"
+            baseTableName="merchant_institution_detail"
+            constraintName="fk_merchant_institution_detail_ctry"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="NO ACTION"
+            onUpdate="NO ACTION"
+            referencedColumnNames="id"
+            referencedTableName="country"
+            validate="true"/>
+        <addForeignKeyConstraint
+            baseColumnNames="state"
+            baseTableName="merchant_institution_detail"
+            constraintName="fk_merchant_institution_detail_state"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="NO ACTION"
+            onUpdate="NO ACTION"
+            referencedColumnNames="id"
+            referencedTableName="country_state"
+            validate="true"/>
+        <addForeignKeyConstraint
+            baseColumnNames="id"
+            baseTableName="merchant_institution_detail"
+            constraintName="fk_merchant_institution_detail_id"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="NO ACTION"
+            onUpdate="NO ACTION"
+            referencedColumnNames="id"
+            referencedTableName="merchant_institution"
+            validate="true"/>
+
+    </changeSet>
+</databaseChangeLog>

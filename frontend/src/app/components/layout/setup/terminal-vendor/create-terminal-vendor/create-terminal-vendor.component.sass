@@ -1,0 +1,216 @@
+@import 'src/styles'
+@import '../../../common-layout'
+
+.create-terminal-vendor-container
+  background-color: #f5f7fa
+  min-height: 100vh
+  padding: 0
+
+  h2
+    font-size: 1.5rem
+    font-weight: 500
+    color: #333
+    margin: 0 0 20px 0
+    padding: 20px 30px
+    background-color: white
+    border-bottom: 1px solid #e9ecef
+
+  .header
+    padding: 15px 30px
+    background-color: white
+    border-bottom: 1px solid #e9ecef
+
+    .back-link
+      display: flex
+      align-items: center
+      gap: 10px
+
+      .fa-bars
+        color: #6c757d
+        font-size: 16px
+
+      a
+        display: flex
+        align-items: center
+        gap: 8px
+        color: #007bff
+        text-decoration: none
+        font-size: 14px
+        font-weight: 500
+
+        &:hover
+          color: #0056b3
+          text-decoration: none
+
+        .fa-arrow-circle-o-left
+          font-size: 16px
+
+  .form-container
+    background-color: white
+    padding: 30px
+    margin: 0
+
+    .form-group
+      margin-bottom: 25px
+
+      .form-label
+        display: block
+        font-weight: 500
+        color: #333
+        margin-bottom: 8px
+        font-size: 14px
+
+        .required
+          color: #dc3545
+          margin-left: 2px
+
+      .form-control
+        width: 100%
+        max-width: 400px
+        padding: 10px 12px
+        font-size: 14px
+        border: 1px solid #ced4da
+        border-radius: 4px
+        background-color: #fff
+        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out
+
+        &:focus
+          outline: none
+          border-color: #80bdff
+          box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25)
+
+        &.is-invalid
+          border-color: #dc3545
+
+          &:focus
+            border-color: #dc3545
+            box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25)
+
+      .invalid-feedback
+        display: block
+        width: 100%
+        margin-top: 5px
+        font-size: 12px
+        color: #dc3545
+
+        span
+          display: block
+
+      .checkbox-container
+        .custom-control.custom-radio
+          position: relative
+          display: block
+          min-height: 1.5rem
+          padding-left: 1.5rem
+
+          .custom-control-input
+            position: absolute
+            left: 0
+            z-index: -1
+            width: 1rem
+            height: 1.25rem
+            opacity: 0
+
+            &:checked ~ .custom-control-label::before
+              color: #fff
+              border-color: #007bff
+              background-color: #007bff
+
+            &:focus ~ .custom-control-label::before
+              box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25)
+
+          .custom-control-label
+            position: relative
+            margin-bottom: 0
+            vertical-align: top
+            cursor: pointer
+            font-size: 14px
+
+            &::before
+              position: absolute
+              top: 0.25rem
+              left: -1.5rem
+              display: block
+              width: 1rem
+              height: 1rem
+              background-color: #fff
+              border: 1px solid #adb5bd
+              border-radius: 50%
+              transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out
+
+            &::after
+              position: absolute
+              top: 0.25rem
+              left: -1.5rem
+              display: block
+              width: 1rem
+              height: 1rem
+              content: ""
+              background: no-repeat 50%/50% 50%
+              background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23fff'/%3e%3c/svg%3e")
+              transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out
+
+    .form-actions
+      margin-top: 40px
+      display: flex
+      gap: 15px
+
+      .btn
+        padding: 10px 20px
+        font-size: 14px
+        font-weight: 500
+        border-radius: 4px
+        border: 1px solid transparent
+        cursor: pointer
+        transition: all 0.15s ease-in-out
+        text-decoration: none
+        display: inline-block
+        text-align: center
+        vertical-align: middle
+        user-select: none
+
+        &:focus
+          outline: none
+          box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25)
+
+        &:disabled
+          opacity: 0.65
+          cursor: not-allowed
+
+        &.btn-primary
+          background-color: #007bff
+          border-color: #007bff
+          color: #fff
+
+          &:hover:not(:disabled)
+            background-color: #0056b3
+            border-color: #004085
+
+          &:focus
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.5)
+
+        &.btn-secondary
+          background-color: #6c757d
+          border-color: #6c757d
+          color: #fff
+
+          &:hover
+            background-color: #5a6268
+            border-color: #545b62
+
+          &:focus
+            box-shadow: 0 0 0 0.2rem rgba(108, 117, 125, 0.5)
+
+@media (max-width: 768px)
+  .create-terminal-vendor-container
+    .form-container
+      padding: 20px
+
+      .form-group .form-control
+        max-width: 100%
+
+      .form-actions
+        flex-direction: column
+
+        .btn
+          width: 100%

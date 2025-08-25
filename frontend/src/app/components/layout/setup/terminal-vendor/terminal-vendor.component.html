@@ -1,0 +1,66 @@
+<div class="main-container">
+    <div class="header">
+      <div class="name-box">
+        <i class="fa fa-bars" aria-hidden="true"></i>
+        <h4>Terminal Vendor</h4>
+      </div>
+      <div class="search-box">
+        <input type="text" class="form-control" placeholder="Type to Search by Name" [(ngModel)]="searchQuery"
+          (keyup.enter)="onSearch()" />
+        <button id="reset-button" (click)="onReset()">Reset</button>
+      </div>
+    </div>
+  
+    <div class="section">
+      <div class="create-button">
+        <button class="btn btn-primary" (click)="onCreate()">
+          <i class="fa fa-plus-circle" aria-hidden="true"></i>
+          Create Terminal Vendor
+        </button>
+      </div>
+    </div>
+  
+    <div class="main-content">
+      <div class="table-container">
+        <table class="table table-striped">
+          <caption class="sr-only">List of terminal vendors with their details including name and status</caption>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Show rows only if filteredVendors has data -->
+            <ng-container *ngIf="filteredVendors.length > 0">
+              <tr *ngFor="let vendor of filteredVendors; let i = index">
+                <td>{{ vendor.name }}</td>
+                <td>
+                  <div class="custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input" [id]="'activeStatus' + i"
+       [checked]="vendor.status === 1" />
+                    <label class="custom-control-label" [for]="'activeStatus' + i"></label>
+                  </div>
+                </td>
+                <td id="actions">
+                  <!-- <a id="edit" (click)="navigateToEditVendor(vendor.id!)">Edit</a>
+                  <a id="delete" (click)="deleteVendor(vendor.id!, vendor.name)">Delete</a> -->
+                  <!-- <a id="view-details" (click)="navigateToViewVendor(vendor.id!)">View Details</a> -->
+                </td>
+              </tr>
+            </ng-container>
+  
+            <!-- Show message if no data -->
+            <tr *ngIf="filteredVendors.length === 0">
+              <td colspan="3" class="text-center">No data to display</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+  
+      <div class="table-footer">
+        <span>{{ filteredVendors.length }} total</span>
+      </div>
+    </div>
+  </div>

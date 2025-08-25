@@ -1,0 +1,80 @@
+<div class="main-container">
+
+  <div class="header">
+    <div class="name-box">
+      <i class="fa fa-bars" aria-hidden="true"></i>
+      <h4>Merchant Groups</h4>
+    </div>
+    <div class="search-box">
+      <input type="text" class="form-control" placeholder="Type to Filter by Merchant Group" [(ngModel)]="filterValue"
+        (keyup)="onEnterKey($event)">
+      <button id="reset-button" (click)="onReset()">Reset</button>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="dropdown-filters">
+      <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle bg-white text-dark" type="button" id="dropdownMenuButton"
+          data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          {{ selectedStatusLabel }}
+        </button>
+        
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <a class="dropdown-item" href="#" (click)="filterByStatus($event, 'all')">All Status</a>
+          <a class="dropdown-item" href="#" (click)="filterByStatus($event, '1')">Active</a>
+          <a class="dropdown-item" href="#" (click)="filterByStatus($event, '0')">Inactive</a>
+        </div>
+
+      </div>
+    </div>
+    <div class="create-button">
+      <button class="btn btn-primary" (click)="navigateToCreateMerchantGroup()">
+        <i class="fa fa-plus-circle" aria-hidden="true"></i>
+        Create Merchant Group
+      </button>
+    </div>
+  </div>
+
+  <div class="main-content">
+    <div class="table-container">
+      <table class="table table-striped">
+        <caption class="sr-only">List of merchant groups with their details including name, status, code, acquirer, and
+          active dates</caption>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Status</th>
+            <th>Merchant Group Code</th>
+            <th>Acquirer</th>
+            <th>Active Since</th>
+            <th>Active To</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let merchantGroup of filteredMerchantGroups; let i = index">
+            <td>{{ merchantGroup.name }}</td>
+            <td>
+              <div class="custom-control custom-switch">
+                <input type="checkbox" class="custom-control-input" [id]="'status' + i"
+                  [checked]="merchantGroup.locked === '1'" (change)="updateStatus($event, merchantGroup)">
+                <label class="custom-control-label" [for]="'status' + i"></label>
+              </div>
+            </td>
+            <td>{{ merchantGroup.code }}</td>
+            <td>{{ merchantGroup.acquirer?.name }}</td>
+            <td>{{ merchantGroup.activateOn | date: 'yyyy-MM-dd HH:mm:ss' }}</td>
+            <td>{{ merchantGroup.expiryOn | date: 'yyyy-MM-dd HH:mm:ss' }}</td>
+
+            <td id="actions">
+              <a id="edit" (click)="navigateToEditMerchantGroup(merchantGroup.id!)">Edit</a>
+              <a id="delete" (click)="deleteMerchantGroup(merchantGroup.id!, merchantGroup.name)">Delete</a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,41 @@
+<div class="create-terminal-vendor-container">
+    <h2>Create Terminal Vendor</h2>
+    <div class="header">
+      <div class="back-link">
+        <i class="fa fa-bars" aria-hidden="true" ></i>
+        <a routerLink="/layout/terminal-vendors">
+          <i class="fa fa-arrow-circle-o-left" aria-hidden="true"></i>
+          Back
+        </a>
+      </div>
+    </div>
+  
+    <form [formGroup]="terminalVendorForm" (ngSubmit)="onSubmit()" class="form-container">
+      <div class="form-group">
+        <label class="form-label">
+          Name <span class="required">*</span>
+        </label>
+        <input type="text" formControlName="name" class="form-control" [ngClass]="{'is-invalid': isFieldInvalid('name')}" />
+        <div class="invalid-feedback" *ngIf="isFieldInvalid('name')">
+          <span *ngIf="terminalVendorForm.get('name')?.errors?.['required']">Name is required.</span>
+          <span *ngIf="terminalVendorForm.get('name')?.errors?.['minlength']">Name must be at least 2 characters long.</span>
+          <span *ngIf="terminalVendorForm.get('name')?.errors?.['maxlength']">Name cannot exceed 100 characters.</span>
+        </div>
+      </div>
+  
+      <div class="form-group">
+        <label class="form-label">Status</label>
+        <div class="checkbox-container">
+          <div class="custom-control custom-radio">
+            <input type="radio" id="disabled" formControlName="active" value="0" class="custom-control-input">
+            <label class="custom-control-label" for="disabled">DISABLED</label>
+          </div>
+        </div>
+      </div>
+  
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary" (click)="onCancel()">Cancel</button>
+        <button type="submit" class="btn btn-primary" [disabled]="isSubmitting">Submit</button>
+      </div>
+    </form>
+  </div>

@@ -1,0 +1,310 @@
+<div class="container">
+  <div class="header">
+    <h2>{{ pageTitle }} Merchant Store</h2>
+  </div>
+
+  <div class="back-button">
+    <button class="icon-button" [routerLink]="['/layout/merchant-stores']" aria-label="Back to list">
+      <i class="fa fa-arrow-left" aria-hidden="true"></i>
+      Back
+    </button>
+  </div>
+
+  <div class="stepper">
+    <div class="stepper-header">
+      <div class="step" [ngClass]="{'active': currentStep === 1, 'completed': isStep1Valid()}">
+        <div class="step-number">1</div>
+        <span>General Info</span>
+      </div>
+      <div class="step" [ngClass]="{'active': currentStep === 2}">
+        <div class="step-number">2</div>
+        <span>Contact Info</span>
+      </div>
+    </div>
+
+    <form #merchantStoreForm="ngForm">
+      <!-- Step 1: General Information -->
+      <div class="step-content" *ngIf="currentStep === 1">
+        <div class="form-section">
+          <div class="form-row">
+            <div class="form-group full-width">
+              <label for="name">Merchant Store Name*</label>
+              <input id="name" 
+                     name="name" 
+                     [(ngModel)]="merchantStore.name" 
+                     placeholder="Merchant Store Name" 
+                     required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group full-width">
+              <label for="description">Description</label>
+              <textarea id="description" 
+                        name="description" 
+                        [(ngModel)]="merchantStore.description" 
+                        placeholder="Description"
+                        rows="4"></textarea>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="region">Region*</label>
+              <select id="region" name="region" [(ngModel)]="merchantStore.region" required>
+                <option value="" disabled>Region</option>
+                <option value="1">North</option>
+                <option value="2">South</option>
+                <option value="3">East</option>
+                <option value="4">West</option>
+                <option value="5">Central</option>
+              </select>
+            </div>
+            <div class="form-group checkbox-group">
+              <label for="sublocation">Sub Merchant Store</label>
+              <div class="checkbox-wrapper">
+                <input id="sublocation" 
+                       name="sublocation" 
+                       type="checkbox" 
+                       [(ngModel)]="merchantStore.sublocation">
+                <span class="checkbox-label">{{ merchantStore.sublocation ? 'ENABLED' : 'DISABLED' }}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="merchantChain">Merchant Chain*</label>
+              <select id="merchantChain" 
+                      name="merchantChain" 
+                      [(ngModel)]="merchantStore.merchantChain" 
+                      required
+                      [disabled]="isLoadingMerchantChains">
+                <option value="" disabled>
+                  {{ isLoadingMerchantChains ? 'Loading...' : 'Select Merchant Chain' }}
+                </option>
+                <option *ngFor="let chain of merchantChains" [value]="chain.name">
+                  {{ chain.name }}
+                </option>
+              </select>
+              <div *ngIf="isLoadingMerchantChains" class="loading-indicator">
+                <i class="fa fa-spinner fa-spin"></i> Loading merchant chains...
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="code">Store ID*</label>
+              <input id="code" 
+                     name="code" 
+                     [(ngModel)]="merchantStore.code" 
+                     placeholder="Store ID" 
+                     required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="locationId">Merchant ID*</label>
+              <input id="locationId" 
+                     name="locationId" 
+                     [(ngModel)]="merchantStore.merchantId" 
+                     placeholder="Merchant ID" 
+                     required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="activateOn">Active Since*</label>
+              <input id="activateOn" 
+                     name="activateOn" 
+                     type="date" 
+                     [(ngModel)]="merchantStore.activateOn" 
+                     required>
+            </div>
+            <div class="form-group">
+              <label for="expiryOn">Active To*</label>
+              <input id="expiryOn" 
+                     name="expiryOn" 
+                     type="date" 
+                     [(ngModel)]="merchantStore.expiryOn" 
+                     required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group checkbox-group">
+              <label for="posSafetyFlag">POS Safety</label>
+              <div class="checkbox-wrapper">
+                <input type="checkbox" 
+                       id="posSafetyFlag" 
+                       name="posSafetyFlag" 
+                       [checked]="merchantStore.posSafetyFlag === 'Y'" 
+                       (change)="onPosSafetyToggle($event)">
+                <span class="checkbox-label">{{ merchantStore.posSafetyFlag === 'Y' ? 'ENABLED' : 'DISABLED' }}</span>
+              </div>
+            </div>
+            <div class="form-group checkbox-group">
+              <label for="status">Status</label>
+              <div class="checkbox-wrapper">
+                <input type="checkbox" 
+                       id="status" 
+                       name="status" 
+                       [checked]="merchantStore.locked === 'N' && merchantStore.deleted === 'N'" 
+                       (change)="onStatusToggle($event)">
+                <span class="checkbox-label">{{ merchantStore.locked === 'N' && merchantStore.deleted === 'N' ? 'ENABLED' : 'DISABLED' }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn-cancel" (click)="onCancel()">Cancel</button>
+          <button type="button" class="btn-next" (click)="nextStep()" [disabled]="!isStep1Valid()">Next</button>
+        </div>
+      </div>
+
+      <!-- Step 2: Contact Information -->
+      <div class="step-content" *ngIf="currentStep === 2">
+        <div class="form-section">
+          <div class="form-row">
+            <div class="form-group full-width">
+              <label for="email">Email*</label>
+              <input id="email" 
+                     name="email" 
+                     type="email"
+                     [(ngModel)]="merchantStore.email" 
+                     placeholder="Email" 
+                     required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="phone">Phone Number*</label>
+              <input id="phone" 
+                     name="phone" 
+                     [(ngModel)]="merchantStore.phone" 
+                     placeholder="Phone Number" 
+                     required>
+            </div>
+            <div class="form-group">
+              <label for="fax">Fax</label>
+              <input id="fax" 
+                     name="fax" 
+                     [(ngModel)]="merchantStore.fax" 
+                     placeholder="Fax">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group full-width">
+              <label for="address1">Address Line One*</label>
+              <input id="address1" 
+                     name="address1" 
+                     [(ngModel)]="merchantStore.address1" 
+                     placeholder="Address Line One" 
+                     required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group full-width">
+              <label for="address2">Address Line Two</label>
+              <input id="address2" 
+                     name="address2" 
+                     [(ngModel)]="merchantStore.address2" 
+                     placeholder="Address Line Two">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="country">Country*</label>
+              <select id="country" 
+                      name="country" 
+                      [(ngModel)]="merchantStore.country" 
+                      (ngModelChange)="onCountryChange()"
+                      required
+                      [disabled]="isLoadingCountries">
+                <option value="" disabled>
+                  {{ isLoadingCountries ? 'Loading...' : 'Select Country' }}
+                </option>
+                <option *ngFor="let country of countries" [value]="country.id">
+                  {{ country.countryName }}
+                </option>
+              </select>
+              <div *ngIf="isLoadingCountries" class="loading-indicator">
+                <i class="fa fa-spinner fa-spin"></i> Loading countries...
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="state">State*</label>
+              <select id="state" 
+                      name="state" 
+                      [(ngModel)]="merchantStore.state" 
+                      required
+                      [disabled]="isLoadingStates || !merchantStore.country">
+                <option value="" disabled>
+                  {{ !merchantStore.country ? 'Please select country first' : 
+                     isLoadingStates ? 'Loading...' : 'Select State' }}
+                </option>
+                <option *ngFor="let state of filteredStates" [value]="state.id">
+                  {{ state.stateName }}
+                </option>
+              </select>
+              <div *ngIf="isLoadingStates" class="loading-indicator">
+                <i class="fa fa-spinner fa-spin"></i> Loading states...
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="city">City*</label>
+              <input id="city" 
+                     name="city" 
+                     [(ngModel)]="merchantStore.city" 
+                     placeholder="City" 
+                     required>
+            </div>
+            <div class="form-group">
+              <label for="zip">Zip Code*</label>
+              <input id="zip" 
+                     name="zip" 
+                     [(ngModel)]="merchantStore.zip" 
+                     placeholder="Zip Code" 
+                     required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="latitude">Latitude*</label>
+              <input id="latitude" 
+                     name="latitude" 
+                     type="number"
+                     step="any"
+                     [(ngModel)]="merchantStore.latitude" 
+                     placeholder="Latitude" 
+                     required>
+            </div>
+            <div class="form-group">
+              <label for="longitude">Longitude*</label>
+              <input id="longitude" 
+                     name="longitude" 
+                     type="number"
+                     step="any"
+                     [(ngModel)]="merchantStore.longitude" 
+                     placeholder="Longitude" 
+                     required>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn-back" (click)="previousStep()">Back</button>
+          <button type="button" class="btn-cancel" (click)="onCancel()">Cancel</button>
+          <button type="button" class="btn-submit" (click)="onSubmit()" [disabled]="!isFormValid()">
+            {{ isEditMode ? 'Update' : 'Submit' }}
+          </button>
+        </div>
