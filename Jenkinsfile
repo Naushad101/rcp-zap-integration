@@ -18,9 +18,9 @@ pipeline {
         githubPush()
     }
 
-    tools {
-        nodejs 'Node18'
-    }
+    // tools {
+    //     nodejs 'Node18'
+    // }
 
     stages {
 
@@ -38,7 +38,7 @@ pipeline {
                 sh 'chmod +x ./gradlew'
                 sh 'chmod +x ./gradle'
                 sh 'java -version'
-                sh 'node --version'
+                // sh 'node --version'
                 sh 'npm --version'
                 sh 'docker --version'
                 sh 'trivy --version'
