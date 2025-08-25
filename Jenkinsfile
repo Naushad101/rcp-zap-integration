@@ -37,6 +37,7 @@ pipeline {
             steps {
                 sh 'chmod +x ./gradlew'
                 sh 'chmod +x ./gradle'
+                sh 'chmod +x ./zap_scan.sh'
                 sh 'java -version'
                 // sh 'node --version'
                 // sh 'npm --version'
