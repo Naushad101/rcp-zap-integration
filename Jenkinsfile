@@ -2,10 +2,7 @@ pipeline {
     agent any
 
     environment {
-        GIT_REPO_URL     = 'https://github.com/Jayesh2026/zap-rcp-test.git'
-        DOCKER_USERNAME  = 'jayesh2026'
-        BACKEND_IMAGE    = "${DOCKER_USERNAME}/reno-rcp"
-        DATACLIENT_IMAGE   = "${DOCKER_USERNAME}/reno-dataclient"
+        GIT_REPO_URL     = 'https://github.com/Naushad101/rcp-zap-integration.git'
 
         // Environment variables passed into zap_scan.sh
         APP_URL     = "http://rcp-backend:8081"
@@ -58,13 +55,13 @@ pipeline {
             }
         }
 
-        stage('Build Backend Image') {
-            steps {
-                dir('backend') {
-                    sh "docker build -t ${BACKEND_IMAGE}:${BUILD_NUMBER} ."
-                }
-            }
-        }
+        // stage('Build Backend Image') {
+        //     steps {
+        //         dir('backend') {
+        //             sh "docker build -t ${BACKEND_IMAGE}:${BUILD_NUMBER} ."
+        //         }
+        //     }
+        // }
 
         // stage('Build Dataclient Image') {
         //     steps {
