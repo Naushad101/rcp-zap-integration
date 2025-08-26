@@ -1,6 +1,6 @@
 services:
 
-  backend:
+  rcp-backend:
     build:
       context: ./backend
       dockerfile: Dockerfile
