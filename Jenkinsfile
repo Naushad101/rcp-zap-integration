@@ -5,9 +5,9 @@ pipeline {
         GIT_REPO_URL     = 'https://github.com/Naushad101/rcp-zap-integration.git'
 
         // Environment variables passed into zap_scan.sh
-        APP_URL     = "http://rcp-backend:8081"
+        // APP_URL     = "http://rcp-backend:8081"
         ZAP_URL     = "http://zap:8090/"
-        OPENAPI_URL = "http://rcp-backend:8081/v3/api-docs"
+        // OPENAPI_URL = "http://rcp-backend:8081/v3/api-docs"
         REPORTS_DIR = "zap_reports"
     }
 
