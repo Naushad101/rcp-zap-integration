@@ -124,30 +124,30 @@ pipeline {
             }
         }
 
-        // stage('Wait for ZAP Ready') {
-        //     steps {
-        //         script {
-        //         sh "sleep 60"
-        //         def maxRetries = 10
-        //         def count = 0
-        //         def zapReady = false
-        //         while (count < maxRetries && !zapReady) {
-        //             def status = sh(script: "curl -s -o /dev/null -w '%{http_code}' ${env.ZAP_URL}", returnStdout: true).trim()
-        //             echo "ZAP check attempt ${count + 1}: HTTP $status"
-        //             if (status == '200') {
-        //             zapReady = true
-        //             echo "ZAP is running and healthy"
-        //             } else {
-        //             count++
-        //             sleep(time: 10, unit: 'SECONDS')
-        //             }
-        //         }
-        //         if (!zapReady) {
-        //             error 'ZAP did not become ready in time!'
-        //         }
-        //         }
-        //     }
-        // }
+        stage('Wait for ZAP Ready') {
+            steps {
+                script {
+                sh "sleep 60"
+                def maxRetries = 10
+                def count = 0
+                def zapReady = false
+                while (count < maxRetries && !zapReady) {
+                    def status = sh(script: "curl -s -o /dev/null -w '%{http_code}' ${env.ZAP_URL}", returnStdout: true).trim()
+                    echo "ZAP check attempt ${count + 1}: HTTP $status"
+                    if (status == '200') {
+                    zapReady = true
+                    echo "ZAP is running and healthy"
+                    } else {
+                    count++
+                    sleep(time: 10, unit: 'SECONDS')
+                    }
+                }
+                if (!zapReady) {
+                    error 'ZAP did not become ready in time!'
+                }
+                }
+            }
+        }
 
         stage('Run ZAP Security Scan') {
             steps {
