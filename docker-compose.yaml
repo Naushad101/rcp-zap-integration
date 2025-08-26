@@ -89,4 +89,5 @@ services:
 
 networks:
   bnt-cnx-network:
+    driver: bridge
     external: true
