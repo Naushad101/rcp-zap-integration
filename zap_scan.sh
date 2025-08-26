@@ -8,7 +8,10 @@ echo "=== Starting ZAP Security Scan ==="
 APP_URL="${APP_URL:-http://rcp-backend:8081}"  
 ZAP_URL="${ZAP_URL:-http://localhost:8090}"        
 OPENAPI_URL="${OPENAPI_URL:-$APP_URL/v3/api-docs}" 
-REPORTS_DIR="${REPORTS_DIR:-./zap_reports}"        
+REPORTS_DIR="${REPORTS_DIR:-./zap_reports}"
+
+# Remove trailing slash from ZAP_URL if present
+ZAP_URL="${ZAP_URL%/}"
 
 mkdir -p "$REPORTS_DIR"
 
