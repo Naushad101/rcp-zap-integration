@@ -5,7 +5,7 @@
 echo "=== Starting ZAP Security Scan ==="
 
 # Get config from environment variables
-APP_URL="${APP_URL:-http://localhost:8081}"  
+APP_URL="${APP_URL:-http://rcp-backend:8081}"  
 ZAP_URL="${ZAP_URL:-http://localhost:8090}"        
 OPENAPI_URL="${OPENAPI_URL:-$APP_URL/v3/api-docs}" 
 REPORTS_DIR="${REPORTS_DIR:-./zap_reports}"        
