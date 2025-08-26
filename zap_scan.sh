@@ -14,7 +14,6 @@ APP_URL="${APP_URL:-http://rcp-backend:8081}"
 ZAP_URL="${ZAP_URL:-http://localhost:8090}"
 OPENAPI_URL="${OPENAPI_URL:-$APP_URL/v3/api-docs}"
 REPORTS_DIR="${REPORTS_DIR:-./zap_reports}"
-ZAP_API_KEY="${ZAP_API_KEY:-}"
 
 # Security and performance settings
 MAX_SCAN_TIME="${MAX_SCAN_TIME:-3600}"  # Max scan time in seconds (1 hour)
@@ -79,13 +78,8 @@ wait_for_zap() {
 zap_api_call() {
     local endpoint="$1"
     local method="${2:-GET}"
-    local api_key_param=""
     
-    if [[ -n "$ZAP_API_KEY" ]]; then
-        api_key_param="&apikey=$ZAP_API_KEY"
-    fi
-    
-    local url="$ZAP_URL/JSON/$endpoint$api_key_param"
+    local url="$ZAP_URL/JSON/$endpoint"
     
     if [[ "$method" == "GET" ]]; then
         curl -s "$url" || error "Failed to call ZAP API: $endpoint"
