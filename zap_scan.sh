@@ -3,7 +3,7 @@
 echo "=== Starting ZAP Security Scan ==="
 
 # Get config from environment variables
-APP_URLS="${APP_URLS:-http://rcp-backend:8081 http://dataclient:8082}"  
+APP_URLS="${APP_URLS:-http://rcp-backend:8081 http://frontend:80}"  
 ZAP_URL="${ZAP_URL:-http://localhost:8090}"        
 REPORTS_DIR="${REPORTS_DIR:-./zap_reports}"        
 

@@ -10,7 +10,7 @@ pipeline {
         DATACLIENT_IMAGE   = "${DOCKER_USERNAME}/${DATACLIENT_APP}"
 
         // Environment variables passed into zap_scan.sh
-        APP_URLS    = "http://rcp-backend:8081 http://rcp-dataclient:8082"
+        APP_URLS    = "http://rcp-backend:8081 http://frontend:80"
         ZAP_URL     = "http://zap:8090"
         REPORTS_DIR = "zap_reports"
     }
