@@ -14,8 +14,6 @@ services:
       OTEL_SERVICE_NAME: rcp-backend
     env_file:
       - ./env/otel-config.env 
-    depends-on : 
-      - frontend
     networks:
       - bnt-cnx-network
     healthcheck:
