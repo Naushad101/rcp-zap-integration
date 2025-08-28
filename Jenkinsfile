@@ -2,12 +2,16 @@ pipeline {
     agent any
 
     environment {
-        GIT_REPO_URL     = 'https://github.com/Naushad101/rcp-zap-integration.git'
+        GIT_REPO_URL     = 'https://github.com/Jayesh2026/zap-rcp-test.git'
+        BACKEND_APP     = "reno-rcp"
+        DATACLIENT_APP  = "reno-dataclient"
+        DOCKER_USERNAME  = 'jayesh2026'
+        BACKEND_IMAGE    = "${DOCKER_USERNAME}/${BACKEND_APP}"
+        DATACLIENT_IMAGE   = "${DOCKER_USERNAME}/${DATACLIENT_APP}"
 
         // Environment variables passed into zap_scan.sh
-         APP_URL     = "http://rcp-backend:8081"
+        APP_URLS    = "http://rcp-backend:8081 http://rcp-dataclient:8082"
         ZAP_URL     = "http://zap:8090"
-        OPENAPI_URL = "http://rcp-backend:8081/v3/api-docs"
         REPORTS_DIR = "zap_reports"
     }
 
@@ -33,7 +37,6 @@ pipeline {
         stage('Set Permissions & Verify Tools') {
             steps {
                 sh 'chmod +x ./gradlew'
-                sh 'chmod +x ./gradle'
                 sh 'chmod +x ./zap_scan.sh'
                 sh 'java -version'
                 // sh 'node --version'
@@ -45,7 +48,7 @@ pipeline {
 
         stage('Build All Modules') {
             steps {
-                sh './gradlew build -x test'
+                sh './gradlew clean build -x test'
             }
             post {
                 success {
@@ -55,47 +58,47 @@ pipeline {
             }
         }
 
-        // stage('Build Backend Image') {
-        //     steps {
-        //         dir('backend') {
-        //             sh "docker build -t ${BACKEND_IMAGE}:${BUILD_NUMBER} ."
-        //         }
-        //     }
-        // }
+        stage('Build Backend Image') {
+            steps {
+                dir('backend') {
+                    sh "docker build -t ${BACKEND_IMAGE}:${BUILD_NUMBER} ."
+                }
+            }
+        }
 
-        // stage('Build Dataclient Image') {
-        //     steps {
-        //         dir('dataclient') {
-        //             sh "docker build -t ${DATACLIENT_IMAGE}:${BUILD_NUMBER} ."
-        //         }
-        //     }
-        // }
+        stage('Build Dataclient Image') {
+            steps {
+                dir('dataclient') {
+                    sh "docker build -t ${DATACLIENT_IMAGE}:${BUILD_NUMBER} ."
+                }
+            }
+        }
 
-        // stage('Trivy Scans') {
-        //     steps {
-        //         sh """
-        //             trivy image --timeout 10m --scanners vuln --format template --template "@$TRIVY_TEMPLATE" -o trivy-${BACKEND_IMAGE}.html ${BACKEND_IMAGE}:${BUILD_NUMBER}
-        //             trivy image --timeout 10m --scanners vuln --format template --template "@$TRIVY_TEMPLATE" -o trivy-${DATACLIENT_IMAGE}.html ${DATACLIENT_IMAGE}:${BUILD_NUMBER}
-        //         """
-        //     }
-        //     post {
-        //         always {
-        //             archiveArtifacts artifacts: 'trivy-*.html', fingerprint: true
-        //         }
-        //     }
-        // }
+        stage('Trivy Scans') {
+            steps {
+                sh """
+                    trivy image --timeout 10m --scanners vuln --format template --template "@$TRIVY_TEMPLATE" -o trivy-${BACKEND_APP}.html ${BACKEND_IMAGE}:${BUILD_NUMBER}
+                    trivy image --timeout 10m --scanners vuln --format template --template "@$TRIVY_TEMPLATE" -o trivy-${DATACLIENT_APP}.html ${DATACLIENT_IMAGE}:${BUILD_NUMBER}
+                """
+            }
+            post {
+                always {
+                    archiveArtifacts artifacts: 'trivy-*.html', fingerprint: true
+                }
+            }
+        }
 
-        // stage('Save Docker Images as Tar') {
-        //     steps {
-        //         sh "docker save -o ${BACKEND_IMAGE}-${BUILD_NUMBER}.tar ${BACKEND_IMAGE}:${BUILD_NUMBER}"
-        //         sh "docker save -o ${DATACLIENT_IMAGE}-${BUILD_NUMBER}.tar ${DATACLIENT_IMAGE}:${BUILD_NUMBER}"
-        //     }
-        //     post {
-        //         success {
-        //             archiveArtifacts artifacts: '*.tar', fingerprint: true
-        //         }
-        //     }
-        // }
+        stage('Save Docker Images as Tar') {
+            steps {
+                sh "docker save -o ${BACKEND_APP}-${BUILD_NUMBER}.tar ${BACKEND_IMAGE}:${BUILD_NUMBER}"
+                sh "docker save -o ${DATACLIENT_APP}-${BUILD_NUMBER}.tar ${DATACLIENT_IMAGE}:${BUILD_NUMBER}"
+            }
+            post {
+                success {
+                    archiveArtifacts artifacts: '*.tar', fingerprint: true
+                }
+            }
+        }
         
         // stage('Push Images to DockerHub') {
         //     steps {
@@ -116,8 +119,8 @@ pipeline {
 
         stage('Deploy with Docker Compose') {
             steps {
-                //sh 'docker compose down || true'
-                sh 'docker compose up -d'
+                sh 'docker compose down || true'
+                sh 'docker compose up -d --build'
             }
         }
 
@@ -150,6 +153,11 @@ pipeline {
             steps {
                 sh "./zap_scan.sh" 
             }
+            post {
+                success {
+                    archiveArtifacts artifacts: "${env.REPORTS_DIR}/*", allowEmptyArchive: false
+                }
+            }
         }        
 
     }
@@ -158,6 +166,8 @@ pipeline {
         always {
             echo 'Cleaning up old Docker tags...'
             sh '''#!/bin/bash
+            
+            docker compose down zap
 
             # Get all images for our project
             ALL_IMAGES=$(docker images --format "{{.Repository}}:{{.Tag}}" | grep "^${DOCKER_USERNAME}/reno-")

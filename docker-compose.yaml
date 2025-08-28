@@ -23,26 +23,26 @@ services:
       retries: 5
       start_period: 30s
 
-  # dataclient:
-  #   build:
-  #     context: ./dataclient
-  #     dockerfile: Dockerfile
-  #   container_name: rcp-dataclient
-  #   ports:
-  #     - "8082:8082"
-  #   environment:
-  #     backend.url: http://rcp-backend:8081/database-sync-up
-  #     SPRING_DATASOURCE_URL: jdbc:mysql://bnt-cnx-mysql:3306/reno-atm-server-db
-  #     SPRING_DATASOURCE_USERNAME: root
-  #     SPRING_DATASOURCE_PASSWORD: root
-  #     OTEL_SERVICE_NAME: dataclient
-  #   env_file:
-  #     - ./env/otel-config.env
-  #   depends_on:
-  #     backend:
-  #       condition: service_healthy
-  #   networks:
-  #     - bnt-cnx-network
+  dataclient:
+    build:
+      context: ./dataclient
+      dockerfile: Dockerfile
+    container_name: dataclient
+    ports:
+      - "8082:8082"
+    environment:
+      backend.url: http://rcp-backend:8081/database-sync-up
+      SPRING_DATASOURCE_URL: jdbc:mysql://bnt-cnx-mysql:3306/reno-atm-server-db
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      OTEL_SERVICE_NAME: dataclient
+    env_file:
+      - ./env/otel-config.env
+    depends_on:
+      rcp-backend:
+        condition: service_healthy
+    networks:
+      - bnt-cnx-network
 
   # frontend:
   #   build:
