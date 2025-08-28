@@ -4,9 +4,10 @@ pipeline {
     environment {
         GIT_REPO_URL     = 'https://github.com/Naushad101/rcp-zap-integration'
         BACKEND_APP     = "reno-rcp"
-        DATACLIENT_APP  = "reno-dataclient"
+        FRONTEND_APP    = "reno-frontend"
+        // DOCKER_USERNAME  = 'jayesh2026'
         BACKEND_IMAGE    = "${DOCKER_USERNAME}/${BACKEND_APP}"
-        DATACLIENT_IMAGE   = "${DOCKER_USERNAME}/${DATACLIENT_APP}"
+        FRONTEND_IMAGE   = "${DOCKER_USERNAME}/${FRONTEND_APP}"
 
         // Environment variables passed into zap_scan.sh
         APP_URLS    = "http://rcp-backend:8081 http://frontend:80"
@@ -52,7 +53,8 @@ pipeline {
             post {
                 success {
                     archiveArtifacts artifacts: 'backend/build/libs/*.jar', fingerprint: true
-                    archiveArtifacts artifacts: 'dataclient/build/libs/*.jar', fingerprint: true
+                    // Frontend build artifacts (if applicable)
+                    archiveArtifacts artifacts: 'frontend/dist/**/*', allowEmptyArchive: true
                 }
             }
         }
@@ -65,10 +67,10 @@ pipeline {
             }
         }
 
-        stage('Build Dataclient Image') {
+        stage('Build Frontend Image') {
             steps {
-                dir('dataclient') {
-                    sh "docker build -t ${DATACLIENT_IMAGE}:${BUILD_NUMBER} ."
+                dir('frontend') {
+                    sh "docker build -t ${FRONTEND_IMAGE}:${BUILD_NUMBER} ."
                 }
             }
         }
@@ -77,7 +79,7 @@ pipeline {
             steps {
                 sh """
                     trivy image --timeout 10m --scanners vuln --format template --template "@$TRIVY_TEMPLATE" -o trivy-${BACKEND_APP}.html ${BACKEND_IMAGE}:${BUILD_NUMBER}
-                    trivy image --timeout 10m --scanners vuln --format template --template "@$TRIVY_TEMPLATE" -o trivy-${DATACLIENT_APP}.html ${DATACLIENT_IMAGE}:${BUILD_NUMBER}
+                    trivy image --timeout 10m --scanners vuln --format template --template "@$TRIVY_TEMPLATE" -o trivy-${FRONTEND_APP}.html ${FRONTEND_IMAGE}:${BUILD_NUMBER}
                 """
             }
             post {
@@ -90,7 +92,7 @@ pipeline {
         stage('Save Docker Images as Tar') {
             steps {
                 sh "docker save -o ${BACKEND_APP}-${BUILD_NUMBER}.tar ${BACKEND_IMAGE}:${BUILD_NUMBER}"
-                sh "docker save -o ${DATACLIENT_APP}-${BUILD_NUMBER}.tar ${DATACLIENT_IMAGE}:${BUILD_NUMBER}"
+                sh "docker save -o ${FRONTEND_APP}-${BUILD_NUMBER}.tar ${FRONTEND_IMAGE}:${BUILD_NUMBER}"
             }
             post {
                 success {
@@ -105,13 +107,13 @@ pipeline {
         //             sh 'echo $DOCKER_AUTH | docker login -u ${DOCKER_USERNAME} --password-stdin'
 
         //             sh "docker tag ${BACKEND_IMAGE}:${BUILD_NUMBER} ${BACKEND_IMAGE}:latest"
-        //             sh "docker tag ${DATACLIENT_IMAGE}:${BUILD_NUMBER} ${DATACLIENT_IMAGE}:latest"
+        //             sh "docker tag ${FRONTEND_IMAGE}:${BUILD_NUMBER} ${FRONTEND_IMAGE}:latest"
 
         //             sh "docker push ${BACKEND_IMAGE}:${BUILD_NUMBER}"
         //             sh "docker push ${BACKEND_IMAGE}:latest"
 
-        //             sh "docker push ${DATACLIENT_IMAGE}:${BUILD_NUMBER}"
-        //             sh "docker push ${DATACLIENT_IMAGE}:latest"
+        //             sh "docker push ${FRONTEND_IMAGE}:${BUILD_NUMBER}"
+        //             sh "docker push ${FRONTEND_IMAGE}:latest"
         //         }
         //     }
         // }
