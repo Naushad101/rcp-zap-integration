@@ -5,7 +5,6 @@ pipeline {
         GIT_REPO_URL     = 'https://github.com/Naushad101/rcp-zap-integration'
         BACKEND_APP     = "reno-rcp"
         DATACLIENT_APP  = "reno-dataclient"
-        DOCKER_USERNAME  = 'jayesh2026'
         BACKEND_IMAGE    = "${DOCKER_USERNAME}/${BACKEND_APP}"
         DATACLIENT_IMAGE   = "${DOCKER_USERNAME}/${DATACLIENT_APP}"
 
